@@ -1,6 +1,8 @@
+---
 name: "🔥 Bug"
-description: "버그 관련 작업"
+about: "버그 관련 작업"
 labels: ["bug"]
+title: ''
 body:
   - type: textarea
     attributes:
@@ -20,3 +22,4 @@ body:
     attributes:
       label: 🙋🏻 참고 자료
       description: 참고 자료가 있다면 작성해 주세요.
+---
