@@ -1,6 +1,8 @@
+---
 name: "💻 Refactory"
-description: "리팩토링"
+about: "리팩토링"
 labels: ["refactory"]
+title: ''
 body:
   - type: textarea
     attributes:
@@ -20,3 +22,4 @@ body:
     attributes:
       label: 🙋🏻 참고 자료
       description: 참고 자료가 있다면 작성해 주세요.
+---
