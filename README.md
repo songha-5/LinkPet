@@ -43,6 +43,7 @@
 
 기능정의서/API문서: https://app.notion.com/p/LinkPet-2f3953634c9d838bbe240133142c6e2f?source=copy_link
 
+DB: https://dbdiagram.io/d/linkpet-DB-6a1e80902eeb2f46cd3c8718
 
 
 ## 🎯 트러블슈팅
