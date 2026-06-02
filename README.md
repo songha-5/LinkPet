@@ -37,6 +37,15 @@
 
   일반 유저가 진입했을 경우 반려동물의 상태 및 수의사의 답변을 확인할 수 있습니다.
 
+## 🎶 문서
+
+유저 플로우: https://www.figma.com/board/FiQWs8TcBvwxBJQ4iaXhdt/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&t=vL4hEnOSWO8XReLK-1
+
+기능정의서/API문서: https://app.notion.com/p/LinkPet-2f3953634c9d838bbe240133142c6e2f?source=copy_link
+
+DB: https://dbdiagram.io/d/linkpet-DB-6a1e80902eeb2f46cd3c8718
+
+
 ## 🎯 트러블슈팅
 
 ### Case 1 문제상황 타이틀
