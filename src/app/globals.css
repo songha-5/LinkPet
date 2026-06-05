@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: var(--color-bg);
+  --foreground: var(--color-bg);
 }
 
 @font-face {
@@ -10,13 +10,34 @@
   font-weight: 45 920;
   font-style: normal;
   font-display: swap;
-  src: url('../fonts/DungGeunMo.woff2') format('woff2-variations');
+  src: url('../fonts/neodgm_code.woff2') format('woff2-variations');
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-dungGeunMo: var(--font-DungGeunMo), Helvetica, sans-serif;
+
+  --color-neonPink: #FF007F;
+  --color-neonGreen: #39FF14;
+  --color-neonGreen-opacity: rgba(57, 255, 20, 0.3);
+  --color-font: #191919;
+  --color-font-white: #F0F0F0;
+  --color-font-white-shadow: rgba(250, 250, 250, 0.15);
+  --color-font-subText: #888;
+  --color-font-caption: #333;
+  --color-bg: #0a0a0a;
+  --color-bg-kakao: #FEE500;
+  --color-bg-kakao-opacity: rgba(254, 229, 0, 0.4);
+  --bg-image-dot: radial-gradient(#222 1px, transparent 1px);
+
+  --animate-float: float 3s ease-in-out infinite;
+}
+
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-25px); }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,7 +48,9 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: var(--color-bg);
+  background-image: var(--bg-image-dot);
+  background-size: 20px 20px;
+  color: var(--color-font-white);
   font-family: DungGeunMo, Helvetica, sans-serif;
 }
