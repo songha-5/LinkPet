@@ -20,18 +20,16 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col h-full">
         {/* 배경 데코 */}
         <Image
-          className="absolute -z-2 top-1/12 left-2/12 opacity-6 animate-float"
+          className="absolute -z-2 top-1/12 left-2/12 opacity-6 animate-float object-contain w-127.5 h-120"
           src="/bg_1.svg"
           alt=""
-          objectFit="cover"
           width={510}
           height={480}
         />
         <Image
-          className="absolute -z-2 bottom-1/12 right-1/20 opacity-6 animate-float duration-800 [animation-delay:1.5s]"
+          className="absolute -z-2 bottom-1/12 right-1/20 opacity-6 animate-float duration-800 [animation-delay:1.5s] object-contain w-77.5 h-70"
           src="/bg_2.svg"
           alt=""
-          objectFit="cover"
           width={310}
           height={280}
         />
