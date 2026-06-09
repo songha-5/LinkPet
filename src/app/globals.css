@@ -19,7 +19,7 @@
   --font-dungGeunMo: var(--font-DungGeunMo), Helvetica, sans-serif;
 
   --color-neonPink: #FF007F;
-  --color-neonPink-opacity: 4px 4px 0px rgba(255, 0, 127, 0.4);
+  --color-neonPink-opacity: rgba(255, 0, 127, 0.4);
   --color-neonGreen: #39FF14;
   --color-neonGreen-opacity: rgba(57, 255, 20, 0.3);
   --color-neonYellow: #FEE500;

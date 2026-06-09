@@ -37,13 +37,13 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
 
             {/* 비밀번호 보기 / 안보기 */}
             {password && (
-              <button type="button" onClick={onChangeEye} className="absolute top-1/2 right-4 -translate-y-1/2">
+              <button type="button" onClick={onChangeEye} className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer">
                 {onToggle ? 
-                  <svg className="w-8 h-6 fill-font-white" viewBox="0 0 16 12">
+                  <svg className="w-7 h-5 fill-font-white" viewBox="0 0 16 12">
                     <path d="M4,2h8v2h-8z M2,4h2v4h-2z M12,4h2v4h-2z M4,8h8v2h-8z M6,5h4v2h-4z"></path>
                   </svg>
                   :
-                  <svg className="w-8 h-6 fill-font-white" viewBox="0 0 16 12">
+                  <svg className="w-7 h-5 fill-font-white" viewBox="0 0 16 12">
                     <path d="M4,2h8v2h-8z M2,4h2v4h-2z M12,4h2v4h-2z M4,8h8v2h-8z" fill="#555"></path>
                     <path d="M1,0h2v2h-2z M3,2h2v2h-2z M5,4h2v2h-2z M7,6h2v2h-2z M9,8h2v2h-2z M11,10h2v2h-2z" fill="var(--neon-pink)"></path>
                   </svg>
