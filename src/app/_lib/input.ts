@@ -28,6 +28,21 @@ export const SignupSchma = z.object({
   message: '비밀번호가 일치하지 않습니다.',
 })
 
+// 비밀번호 찾기 유효성 검사
+export const PasswordSchma = z.object({
+  email: emailSchma
+})
+
+// 비밀번호 변경 유효성 검사
+export const PasswordChangeSchma = z.object({
+  password: passwordSchma,
+  confirmPassword: confirmPasswordSchma
+}).refine(data => data.password === data.confirmPassword, {
+  path: ['confirmPassword'],
+  message: '비밀번호가 일치하지 않습니다.',
+})
 
 export type LoginFormData = z.infer<typeof LoginSchma>
 export type SignupFormData = z.infer<typeof SignupSchma>
+export type PasswordFormData = z.infer<typeof PasswordSchma>
+export type PasswordChangeFormData = z.infer<typeof PasswordChangeSchma>
