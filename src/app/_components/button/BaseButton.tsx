@@ -1,13 +1,17 @@
+import Link from "next/link"
+
 interface buttonProps{
   color?: "white" | "yellow" | "pink" | "green"
   content: string
   type?: "button" | "submit"
   outline?: boolean
   className?: string
+  link?: boolean
+  href?: string
 }
 
 
-export default function BaseButton({ color = "green", content = "", type = "button", outline = false, className = "" }: buttonProps) {
+export default function BaseButton({ color = "green", content = "", type = "button", outline = false, className = "", link = false, href = "" }: buttonProps) {
   const baseStyles = "outline-none w-full h-16 text-2xl text-font tracking-[-2px] border-5 transition-all hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer"
   const colorStyles = {
     green: {
@@ -32,8 +36,16 @@ export default function BaseButton({ color = "green", content = "", type = "butt
   const buttonStyles = colorStyles[color][variantMode]
 
   return (
-    <button type={type} className={`${baseStyles} ${buttonStyles} ${className}`}>
-      {content}
-    </button>
+    <>
+      {link ? (
+        <Link href={href} className={`${baseStyles} ${buttonStyles} ${className} block text-center content-center`}>
+          {content}
+        </Link >  
+      ) : (
+        <button type={type} className={`${baseStyles} ${buttonStyles} ${className}`}>
+          {content}
+        </button>
+      )}
+    </>
   )
 }
