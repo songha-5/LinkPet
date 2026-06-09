@@ -3,9 +3,10 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginFormData, LoginSchma } from '../_lib/input';
+import Link from 'next/link';
 import FloatLayout from '@/src/app/_components/FloatLayout';
 import BaseInput from '@/src/app/_components/input/BaseInput';
-import BaseButton from '@/src/app/_components/button/Button';
+import BaseButton from '@/src/app/_components/button/BaseButton';
 
 
 export default function LoginLayout() {
@@ -33,7 +34,7 @@ export default function LoginLayout() {
         {/* 타이틀 */}
         <div className="text-center">
           <span className="animate-slowBounce text-5xl text-neonGreen text-shadow-[4px_4px_0_var(--color-neonGreen-opacity)] mbe-4 block">[ ^•ﻌ•^ ]</span>
-          <h1 className="text-4xl text-shadow-[3px_3px_0_var(--color-neonPink)] tracking-wide">PIXEL PETS</h1>
+          <h1 className="text-4xl text-shadow-[3px_3px_0_var(--color-neonPink)] tracking-wide">LINKPET</h1>
         </div>
 
         {/* 폼 */}
@@ -59,7 +60,7 @@ export default function LoginLayout() {
 
             <div className="mbs-10">
               <BaseButton type='submit' content="로그인하기 (LOGIN)"/>
-              <BaseButton type='submit' content="카카오 로그인 (KAKAO)" color='yellow' className='mt-4'/>
+              <BaseButton type='submit' content="카카오 로그인 (KAKAO)" color='yellow' className='mt-4' />
             </div>
           </form>
 
@@ -67,8 +68,8 @@ export default function LoginLayout() {
 
         {/* 비밀번호 찾기 / 회원가입 */}
         <div className="mbs-12 border-t-3 border-dashed border-font-caption text-center">
-          <a href="" className="relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-subText text-lg hover:text-neonPink focus-visible:outline-neonPink mbs-6">비밀번호 찾기</a>
-          <a href="" className="relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-subText text-lg hover:text-neonPink focus-visible:outline-neonPink ms-4">회원가입 (JOIN)</a>
+          <Link href="" className="relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-subText text-lg hover:text-neonPink focus-visible:outline-neonPink mbs-6">비밀번호 찾기</Link>
+          <Link href="/auth/join" className="relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-subText text-lg hover:text-neonPink focus-visible:outline-neonPink ms-4">회원가입 (JOIN)</Link>
         </div>
       </FloatLayout>
     </main>
