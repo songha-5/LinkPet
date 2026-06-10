@@ -3,7 +3,7 @@
 import FloatLayout from "@/src/app/_components/FloatLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PasswordFormData, PasswordSchma } from "@/src/app/_lib/input";
+import { PasswordFormData, PasswordSchma } from "@/src/app/_lib/auth";
 import BaseInput from "@/src/app/_components/input/BaseInput";
 import BaseButton from "@/src/app/_components/button/BaseButton";
 import { useRouter } from "next/navigation";

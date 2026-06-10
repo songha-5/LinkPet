@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LoginFormData, LoginSchma } from '../_lib/input';
+import { LoginFormData, LoginSchma } from '../_lib/auth';
 import Link from 'next/link';
 import FloatLayout from '@/src/app/_components/FloatLayout';
 import BaseInput from '@/src/app/_components/input/BaseInput';
