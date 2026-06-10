@@ -3,10 +3,11 @@
 import FloatLayout from "@/src/app/_components/FloatLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { SignupFormData, SignupSchma } from "@/src/app/_lib/input";
+import { SignupFormData, SignupSchma } from "@/src/app/_lib/auth";
 import BaseInput from "@/src/app/_components/input/BaseInput";
 import BaseButton from "@/src/app/_components/button/BaseButton";
 import { useRouter } from "next/navigation";
+import { joinAction } from "@/src/actions/auth.join";
 
 export default function JoinPage() {
   const router = useRouter()  
@@ -21,9 +22,21 @@ export default function JoinPage() {
   })
   
   // 유효성 검사 통과 후 실행
-  const onSubmit = (data: SignupFormData) => {
-    console.log('유효성 검사 패스! 데이터 보내기', data)
-    router.push("/auth/join/result")
+  const onSubmit = async (data: SignupFormData) => {
+    try {
+      const result = await joinAction(data)
+      
+      if (result.success) {
+        router.push("/auth/join/result")
+      } else {
+        alert(`error: ${result.error}`)
+      }
+
+    } catch(error) {
+      // 네트워크 단절 등 예상치 못한 오류 처리
+      console.error('통신 오류 발생:', error)
+      alert('서버와 통신 중 오버플로우가 발생했습니다.')
+    }
   }
   
   return (
@@ -39,7 +52,7 @@ export default function JoinPage() {
         <legend className="sr-only">로그인 form</legend>
 
         {/* input */}
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <BaseInput
             title="USER ID"
             placeholder="아이디를 입력하세요"
