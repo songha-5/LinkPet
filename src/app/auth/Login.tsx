@@ -7,9 +7,13 @@ import Link from 'next/link';
 import FloatLayout from '@/src/app/_components/FloatLayout';
 import BaseInput from '@/src/app/_components/input/BaseInput';
 import BaseButton from '@/src/app/_components/button/BaseButton';
+import { Kakao } from '@/src/actions/auth.kakao';
+import { loginAction } from '@/src/actions/auth.login';
+import { useRouter } from 'next/navigation';
 
 
 export default function LoginLayout() {
+  const router = useRouter()  
 
   // 유효성 검사 호출
   // register로 타입별 해당하는 유효성 체크
@@ -24,8 +28,22 @@ export default function LoginLayout() {
   })
 
   // 유효성 검사 통과 후 실행
-  const onSubmit = (data: LoginFormData) => {
-    console.log('유효성 검사 패스! 데이터 보내기', data)
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const result = await loginAction(data)
+      
+      if (result.success) {
+        console.log('유효성 검사 패스! 데이터 보내기', data)
+        router.push("/user")
+      } else {
+        alert(`error: ${result.error}`)
+      }
+
+    } catch(error) {
+      // 네트워크 단절 등 예상치 못한 오류 처리
+      console.error('통신 오류 발생:', error)
+      alert('서버와 통신 중 오버플로우가 발생했습니다.')
+    }
   }
 
   return (
@@ -60,7 +78,7 @@ export default function LoginLayout() {
 
             <div className="mbs-10">
               <BaseButton type='submit' content="로그인하기 (LOGIN)"/>
-              <BaseButton type='submit' content="카카오 로그인 (KAKAO)" color='yellow' className='mt-4' />
+              <BaseButton onClick={Kakao} type='button' content="카카오 로그인 / 회원가입 (KAKAO)" color='yellow' className='mt-4' />
             </div>
           </form>
 
