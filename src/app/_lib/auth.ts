@@ -33,6 +33,11 @@ export const PasswordSchma = z.object({
   email: emailSchma
 })
 
+// 비밀번호 메일 전송
+export const PasswordEmailSchma = z.object({
+  email: emailSchma
+})
+
 // 비밀번호 변경 유효성 검사
 export const PasswordChangeSchma = z.object({
   password: passwordSchma,
@@ -45,4 +50,5 @@ export const PasswordChangeSchma = z.object({
 export type LoginFormData = z.infer<typeof LoginSchma>
 export type SignupFormData = z.infer<typeof SignupSchma>
 export type PasswordFormData = z.infer<typeof PasswordSchma>
+export type PasswordEmailFormData = z.infer<typeof PasswordEmailSchma>
 export type PasswordChangeFormData = z.infer<typeof PasswordChangeSchma>

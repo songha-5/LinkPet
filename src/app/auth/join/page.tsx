@@ -15,6 +15,7 @@ export default function JoinPage() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors }
   } = useForm<SignupFormData>({
     resolver: zodResolver(SignupSchma),
@@ -29,7 +30,7 @@ export default function JoinPage() {
       if (result.success) {
         router.push("/auth/join/result")
       } else {
-        alert(`error: ${result.error}`)
+        setError("root", { message: result.message })
       }
 
     } catch(error) {
@@ -82,6 +83,8 @@ export default function JoinPage() {
             {...register('confirmPassword')}
             password
           />
+          
+          <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
 
           <div className="mbs-10">
             <BaseButton type='submit' content="가입 완료하기 (JOIN)" color="pink" outline />

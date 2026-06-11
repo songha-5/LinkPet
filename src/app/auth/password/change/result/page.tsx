@@ -16,11 +16,11 @@ export default function PasswordChangeResultPage() {
           이제 당신의 반려동물은 <strong className="text-neonGreen">강력한 픽셀 방어막</strong><br />
           안에서 꿀잠을 잘 수 있게 되었습니다.<br />
           <br />
-          새로운 비밀번호로 다시 로그인해 주세요.
+          반려동물 공간으로 진입합니다! 건강한 시간 되세요!
         </p>
       </div>
 
-      <BaseButton className="mt-9" color="pink" content="메인으로 돌아가기 (MAIN)" link href="/"/>
+      <BaseButton className="mt-9" color="pink" content="내 페이지로 이동 하기" link href="/user"/>
     </FloatLayout>
   )
 }

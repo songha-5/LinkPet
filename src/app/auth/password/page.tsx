@@ -1,13 +1,14 @@
 'use client'
 
-import FloatLayout from "@/src/app/_components/FloatLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PasswordFormData, PasswordSchma } from "@/src/app/_lib/auth";
+import { PasswordEmailFormData, PasswordEmailSchma } from "@/src/app/_lib/auth";
+import { useRouter } from "next/navigation";
+import { passwordEmailAction } from "@/src/actions/auth.passwordEmail";
+import Link from "next/link";
+import FloatLayout from "@/src/app/_components/FloatLayout";
 import BaseInput from "@/src/app/_components/input/BaseInput";
 import BaseButton from "@/src/app/_components/button/BaseButton";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 export default function PasswordPage() {
   const router = useRouter()  
@@ -15,16 +16,28 @@ export default function PasswordPage() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors }
-  } = useForm<PasswordFormData>({
-    resolver: zodResolver(PasswordSchma),
+  } = useForm<PasswordEmailFormData>({
+    resolver: zodResolver(PasswordEmailSchma),
     mode: "onChange"
   })
   
   // 유효성 검사 통과 후 실행
-  const onSubmit = (data: PasswordFormData) => {
-    console.log('유효성 검사 패스! 데이터 보내기', data)
-    router.push("/auth/password/result")
+  const onSubmit = async (data: PasswordEmailFormData) => {
+    try {
+      const result = await passwordEmailAction(data)
+      if (result.success) {
+        router.push("/auth/password/result")
+      } else {
+        setError("root", { message: result.message})
+        alert(`error: ${result.message}`)
+      }
+    } catch(error) {
+      console.log("오류가 일어났습니다.", error)
+      // 404페이지나 팝업띄워야함
+      setError("root", { message: "서버와 통신 중 오류가 일어났습니다."})
+    }
   }
   
   return (
@@ -44,7 +57,7 @@ export default function PasswordPage() {
         </div>
         
         {/* input */}
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <BaseInput
             title="USER ID / EMAIL_ADDRESS"
             placeholder="이메일을 입력하세요"
@@ -52,6 +65,8 @@ export default function PasswordPage() {
             {...register('email')}
           />
 
+          <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
+          
           <div className="mbs-10">
             <BaseButton type='submit' content="인증 메일 전송 (SAND_CODE)" color="green" />
           </div>

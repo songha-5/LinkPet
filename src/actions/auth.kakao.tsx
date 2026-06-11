@@ -1,5 +1,6 @@
 'use client'
 
+import { getErrorMessage } from "../utils/errorMapper"
 import { getURL } from "../utils/getURL"
 import { createClient } from "../utils/supabase/client"
 
@@ -14,7 +15,7 @@ export async function Kakao() {
   })
 
   if (error) {
-    console.log('카카오 회원가입 에러', error.message)
-    return
+    const translatedmessage = getErrorMessage(error)
+    return { success: false, message: translatedmessage }
   }
 }
