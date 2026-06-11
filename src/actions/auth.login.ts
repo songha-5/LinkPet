@@ -2,6 +2,7 @@
 
 import { createClient } from "../utils/supabase/server"
 import { LoginFormData, LoginSchma } from "../app/_lib/auth"
+import { getErrorMessage } from "../utils/errorMapper"
 
 export async function loginAction(data: LoginFormData) {
   // 서버에서 zod검사를 한번 더 확인함
@@ -16,14 +17,14 @@ export async function loginAction(data: LoginFormData) {
 
   // supabase에서 회원가입 데이터 전송
   const supabase = await createClient()
-  const { data: loginData, error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email,
     password
   })
 
   if (error) {
-    console.log("supabase Auth 에러", error.message)
-    return { success: false, error: error.message }
+    const translatedmessage = getErrorMessage(error)
+    return { success: false, message: translatedmessage }
   }
 
   return { success: true }
