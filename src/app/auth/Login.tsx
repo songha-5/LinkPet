@@ -44,51 +44,49 @@ export default function LoginLayout() {
   }
 
   return (
-    <main className="relative h-full p-10">
-      <FloatLayout color='pink'>
-        {/* 타이틀 */}
-        <div className="text-center">
-          <span className="animate-slowBounce text-5xl text-neonGreen text-shadow-[4px_4px_0_var(--color-neonGreen-opacity)] mbe-4 block">[ ^•ﻌ•^ ]</span>
-          <h1 className="text-4xl text-shadow-[3px_3px_0_var(--color-neonPink)] tracking-wide">LINKPET</h1>
-        </div>
+    <FloatLayout color='pink'>
+      {/* 타이틀 */}
+      <div className="text-center">
+        <span className="animate-slowBounce text-5xl text-neonGreen text-shadow-[4px_4px_0_var(--color-neonGreen-opacity)] mbe-4 block">[ ^•ﻌ•^ ]</span>
+        <h1 className="text-4xl text-shadow-[3px_3px_0_var(--color-neonPink)] tracking-wide">LINKPET</h1>
+      </div>
 
-        {/* 폼 */}
-        <fieldset className="mbs-14">
-          <legend className="sr-only">로그인 form</legend>
+      {/* 폼 */}
+      <fieldset className="mbs-14">
+        <legend className="sr-only">로그인 form</legend>
 
-          {/* input */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <BaseInput
-              title="USER ID"
-              placeholder="아이디를 입력하세요"
-              errorMsg={errors.email?.message}
-              {...register('email')}
-            />
-            <BaseInput 
-              title="PASSWORD"
-              placeholder="비밀번호를 입력하세요"
-              errorMsg={errors.password?.message}
-              className='mt-4'
-              {...register('password')}
-              password
-            />
+        {/* input */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <BaseInput
+            title="USER ID"
+            placeholder="아이디를 입력하세요"
+            errorMsg={errors.email?.message}
+            {...register('email')}
+          />
+          <BaseInput 
+            title="PASSWORD"
+            placeholder="비밀번호를 입력하세요"
+            errorMsg={errors.password?.message}
+            className='mt-4'
+            {...register('password')}
+            password
+          />
 
-            <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
+          <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
 
-            <div className="mbs-10">
-              <BaseButton type='submit' content="로그인하기 (LOGIN)"/>
-              <BaseButton onClick={Kakao} type='button' content="카카오 로그인 / 회원가입 (KAKAO)" color='yellow' className='mt-4' />
-            </div>
-          </form>
+          <div className="mbs-10">
+            <BaseButton type='submit' content="로그인하기 (LOGIN)"/>
+            <BaseButton onClick={Kakao} type='button' content="카카오 로그인 / 회원가입 (KAKAO)" color='yellow' className='mt-4' />
+          </div>
+        </form>
 
-        </fieldset>
+      </fieldset>
 
-        {/* 비밀번호 찾기 / 회원가입 */}
-        <div className="mbs-12 border-t-3 border-dashed border-font-caption text-center">
-          <Link href="/auth/password" className="relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-subText text-lg hover:text-neonPink focus-visible:outline-neonPink mbs-6">비밀번호 찾기</Link>
-          <Link href="/auth/join" className="relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-subText text-lg hover:text-neonPink focus-visible:outline-neonPink ms-4">회원가입 (JOIN)</Link>
-        </div>
-      </FloatLayout>
-    </main>
+      {/* 비밀번호 찾기 / 회원가입 */}
+      <div className="mbs-12 border-t-3 border-dashed border-font-caption text-center">
+        <Link href="/auth/password" className="relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-subText text-lg hover:text-neonPink focus-visible:outline-neonPink mbs-6">비밀번호 찾기</Link>
+        <Link href="/auth/join" className="relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-subText text-lg hover:text-neonPink focus-visible:outline-neonPink ms-4">회원가입 (JOIN)</Link>
+      </div>
+    </FloatLayout>
   )
 }
