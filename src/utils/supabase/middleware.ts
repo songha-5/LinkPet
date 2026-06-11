@@ -5,7 +5,6 @@ import { supabaseConfig } from './config'
 // 인증 없이 접근 가능한 경로
 const PUBLIC_PATHS = [
   '/auth/password',
-  '/auth/password/change',
   '/auth/password/result',
   '/auth/join',
   '/auth/join/result',
@@ -16,7 +15,6 @@ const PUBLIC_PATHS = [
 const GUEST_ONLY_PATHS = [
   '/',
   '/auth/password',
-  '/auth/password/change',
   '/auth/join',
   '/api/auth/callback'
 ]

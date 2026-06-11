@@ -20,7 +20,7 @@ export async function passwordEmailAction(data: PasswordEmailFormData) {
   const { error } = await supabase.auth.resetPasswordForEmail(
     data.email,
     {
-      redirectTo: `${getURL()}auth/password/change`
+      redirectTo: `${getURL()}api/auth/callback?next=/auth/password/change`
     }
   )
 
