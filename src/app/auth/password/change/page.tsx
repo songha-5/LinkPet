@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PasswordChangeFormData, PasswordChangeSchma } from "@/src/app/_lib/input";
+import { PasswordChangeFormData, PasswordChangeSchma } from "@/src/app/_lib/auth";
 import { useRouter } from "next/navigation";
 import BaseButton from "@/src/app/_components/button/BaseButton";
 import FloatLayout from "@/src/app/_components/FloatLayout";

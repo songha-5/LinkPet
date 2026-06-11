@@ -8,10 +8,11 @@ interface buttonProps{
   className?: string
   link?: boolean
   href?: string
+  onClick?: (e:React.MouseEvent<HTMLButtonElement>) => void
 }
 
 
-export default function BaseButton({ color = "green", content = "", type = "button", outline = false, className = "", link = false, href = "" }: buttonProps) {
+export default function BaseButton({ color = "green", content = "", type = "button", outline = false, className = "", link = false, href = "", onClick }: buttonProps) {
   const baseStyles = "outline-none w-full h-16 text-2xl text-font tracking-[-2px] border-5 transition-all hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer"
   const colorStyles = {
     green: {
@@ -42,7 +43,7 @@ export default function BaseButton({ color = "green", content = "", type = "butt
           {content}
         </Link >  
       ) : (
-        <button type={type} className={`${baseStyles} ${buttonStyles} ${className}`}>
+        <button onClick={onClick} type={type} className={`${baseStyles} ${buttonStyles} ${className}`}>
           {content}
         </button>
       )}
