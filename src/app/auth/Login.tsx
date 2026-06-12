@@ -74,7 +74,7 @@ export default function LoginLayout() {
             password
           />
 
-          <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
+          <p aria-live="assertive" className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
 
           <div className="mbs-10">
             <BaseButton type='submit' content="로그인하기 (LOGIN)"/>

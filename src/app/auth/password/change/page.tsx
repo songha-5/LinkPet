@@ -71,7 +71,7 @@ export default function PasswordChangePage() {
             className="mt-4"
           />
           
-          <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
+          <p aria-live="assertive" className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
 
           <div className="mbs-10">
             <BaseButton type='submit' content="비밀번호 변경 (PASSWORD_CHANGE)" color="green" />
