@@ -42,6 +42,8 @@ export default function PasswordPage() {
   
   return (
     <FloatLayout color='pink'>
+      <h1 className="sr-only">비밀번호 변경 - 이메일 입력</h1>
+      
       {/* 타이틀 */}
       <div className="text-center">
         <span className="animate-slowBounce text-5xl text-neonYellow text-shadow-[4px_4px_0_var(--color-neonYellow-opacity)] mbe-4 block">[ 🔑•ﻌ• ]</span>
@@ -65,7 +67,7 @@ export default function PasswordPage() {
             {...register('email')}
           />
 
-          <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
+          <p aria-live="assertive" className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
           
           <div className="mbs-10">
             <BaseButton type='submit' content="인증 메일 전송 (SAND_CODE)" color="green" />

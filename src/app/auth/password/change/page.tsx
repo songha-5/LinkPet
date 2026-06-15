@@ -41,6 +41,8 @@ export default function PasswordChangePage() {
 
   return (
     <FloatLayout color="pink">
+      <h1 className="sr-only">비밀번호 변경 입력</h1>
+      
       {/* 타이틀 */}
       <div className="text-center">
         <span className="animate-slowBounce text-5xl text-neonGreen text-shadow-[4px_4px_0_var(--color-neonGreen-opacity)] mbe-4 block">[ 🔒•ﻌ• ]</span>
@@ -69,7 +71,7 @@ export default function PasswordChangePage() {
             className="mt-4"
           />
           
-          <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
+          <p aria-live="assertive" className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
 
           <div className="mbs-10">
             <BaseButton type='submit' content="비밀번호 변경 (PASSWORD_CHANGE)" color="green" />

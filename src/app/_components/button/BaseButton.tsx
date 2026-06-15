@@ -13,7 +13,7 @@ interface buttonProps{
 
 
 export default function BaseButton({ color = "green", content = "", type = "button", outline = false, className = "", link = false, href = "", onClick }: buttonProps) {
-  const baseStyles = "outline-none w-full h-16 text-2xl text-font tracking-[-2px] border-5 transition-all hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer"
+  const baseStyles = "outline-none w-full h-16 text-2xl text-font tracking-[-2px] border-4 transition-all hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer"
   const colorStyles = {
     green: {
       outline: "focus-visible:border-neonPink border-neonGreen shadow-[4px_4px_0_var(--color-neonGreen-opacity)] text-neonGreen hover:text-font hover:bg-neonGreen hover:shadow-[2px_2px_0_var(--color-neonGreen-opacity)]",
@@ -28,7 +28,7 @@ export default function BaseButton({ color = "green", content = "", type = "butt
       fill: "focus-visible:border-font-white bg-neonPink border-neonPink shadow-[4px_4px_0_var(--color-neonPink-opacity)] hover:text-neonPink hover:bg-bg hover:shadow-[2px_2px_0_var(--color-neonPink-opacity)]"
     },
     white: {
-      outline: "focus-visible:border-neonPink border-font-white shadow-[4px_4px_0_var(--color-white-shadow)] text-font-white hover:text-font hover:bg-font-white hover:shadow-[2px_2px_0_var(--color-font-white-shadow)]",
+      outline: "focus-visible:border-neonPink border-font-white shadow-[4px_4px_0_var(--color-font-white-shadow)] text-font-white hover:text-font hover:bg-font-white hover:shadow-[2px_2px_0_var(--color-font-white-shadow)]",
       fill: "focus-visible:border-neonPink bg-font-white border-font-white shadow-[4px_4px_0_var(--color-font-white-shadow)] hover:text-font-white hover:bg-bg hover:shadow-[2px_2px_0_var(--color-font-white-shadow)]"
     }
   }

@@ -45,6 +45,8 @@ export default function LoginLayout() {
 
   return (
     <FloatLayout color='pink'>
+      <h1 className='sr-only'>LinkPet 로그인</h1>
+      
       {/* 타이틀 */}
       <div className="text-center">
         <span className="animate-slowBounce text-5xl text-neonGreen text-shadow-[4px_4px_0_var(--color-neonGreen-opacity)] mbe-4 block">[ ^•ﻌ•^ ]</span>
@@ -72,7 +74,7 @@ export default function LoginLayout() {
             password
           />
 
-          <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
+          <p aria-live="assertive" className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
 
           <div className="mbs-10">
             <BaseButton type='submit' content="로그인하기 (LOGIN)"/>

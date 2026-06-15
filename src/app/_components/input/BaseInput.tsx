@@ -14,6 +14,8 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
     const id = useId()
     const [onToggle, setOnToggle] = useState(false)
 
+    const errorId = `${id}-error`
+
     const onChangeEye = () => {
       setOnToggle((prev) => !prev)
     }
@@ -33,11 +35,13 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
               ref={ref}
               {...props}
               className="transition-all border-5 w-full px-5 py-3 placeholder:text-lg placeholder:text-font-subText focus-visible:border-neonPink shadow-[4px_4px_0_var(--color-font-white-shadow)] focus:shadow-[4px_4px_0_var(--color-neonPink)] outline-none"
+              aria-invalid={errorMsg ? "true" : "false"}
+              aria-describedby={errorMsg ? errorId : undefined}
             />
 
             {/* 비밀번호 보기 / 안보기 */}
             {password && (
-              <button type="button" onClick={onChangeEye} className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer">
+              <button type="button" onClick={onChangeEye} className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer" aria-label={onToggle ? "비밀번호 숨기기" : "비밀번호 보기"}>
                 {onToggle ? 
                   <svg className="w-7 h-5 fill-font-white" viewBox="0 0 16 12">
                     <path d="M4,2h8v2h-8z M2,4h2v4h-2z M12,4h2v4h-2z M4,8h8v2h-8z M6,5h4v2h-4z"></path>
@@ -53,7 +57,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
           </div>
           {/* 에러문구 */}
           {errorMsg && (
-            <p className="text-neonPink mt-2">{errorMsg}</p>
+            <p id={errorId} aria-live="assertive" aria-invalid="false" className="text-neonPink mt-2">{errorMsg}</p>
           )}
         </label>
       </div>

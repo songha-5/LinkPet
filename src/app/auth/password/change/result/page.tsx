@@ -4,6 +4,8 @@ import FloatLayout from "@/src/app/_components/FloatLayout";
 export default function PasswordChangeResultPage() {
   return (
     <FloatLayout color="green">
+      <h1 className="sr-only">비밀번호 변경 완료</h1>
+
       {/* 타이틀 */}
       <div className="text-center">
         <span className="animate-slowBounce text-5xl text-neonGreen text-shadow-[4px_4px_0_var(--color-neonGreen-opacity)] mbe-4 block">[ 🔒•ﻌ• ]</span>

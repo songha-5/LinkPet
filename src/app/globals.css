@@ -24,13 +24,17 @@
   --color-neonGreen-opacity: rgba(57, 255, 20, 0.3);
   --color-neonYellow: #FEE500;
   --color-neonYellow-opacity: rgba(254, 229, 0, 0.4);
+  --color-gray-default: #555;
   --color-font: #191919;
   --color-font-white: #F0F0F0;
   --color-font-white-shadow: rgba(250, 250, 250, 0.15);
   --color-font-subText: #888;
   --color-font-caption: #333;
   --color-bg: #0a0a0a;
-  --bg-image-dot: radial-gradient(#222 1px, transparent 1px);
+  --color-bg-gray: #0d0d0d;
+  --color-bg-gray-100: #222;
+  --color-bg-gray-200: #151515;
+  --bg-image-dot: radial-gradient(var(--color-bg-gray-100) 1px, transparent 1px);
 
   --animate-float: float 3s ease-in-out infinite;
   --animate-slowBounce: slowBounce 1.4s infinite;
