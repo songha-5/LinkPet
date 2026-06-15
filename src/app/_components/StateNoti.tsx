@@ -6,7 +6,7 @@ interface StateNotiProps {
 }
 
 export default function StateNoti({ title, content, color = "base", className }: StateNotiProps) {
-  const baseStyleOutline = "flex border-3 px-4 py-3"
+  const baseStyleOutline = "flex border-3 px-4 py-3 text-sm"
   const colorStyleOutlien = {
     pink: "border-neonPink shadow-[2px_2px_0_var(--color-neonPink-opacity)]",
     green: "border-neonGreen shadow-[2px_2px_0_var(--color-neonGreen-opacity)]",

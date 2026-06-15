@@ -31,7 +31,10 @@
   --color-font-subText: #888;
   --color-font-caption: #333;
   --color-bg: #0a0a0a;
-  --bg-image-dot: radial-gradient(#222 1px, transparent 1px);
+  --color-bg-gray: #0d0d0d;
+  --color-bg-gray-100: #222;
+  --color-bg-gray-200: #151515;
+  --bg-image-dot: radial-gradient(var(--color-bg-gray-100) 1px, transparent 1px);
 
   --animate-float: float 3s ease-in-out infinite;
   --animate-slowBounce: slowBounce 1.4s infinite;
