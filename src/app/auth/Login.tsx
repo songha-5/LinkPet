@@ -10,10 +10,26 @@ import BaseButton from '@/src/app/_components/button/BaseButton';
 import { Kakao } from '@/src/actions/auth.kakao';
 import { loginAction } from '@/src/actions/auth.login';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useModalStore } from '@/src/store/useModalStore';
+import NotiModal from '../_components/modal/NotiModal';
 
 
 export default function LoginLayout() {
   const router = useRouter()  
+  const openModal = useModalStore((state) => state.openModal)
+  const closeModal = useModalStore((state) => state.closeModal)
+
+  // 포트폴리오 안내 모달
+  useEffect(() => { 
+    openModal(
+      <NotiModal
+        onClick={closeModal}
+        userId="test1@test.com"
+        userPassword="password1"
+      />
+    )
+  }, [])
 
   // 유효성 검사 호출
   // register로 타입별 해당하는 유효성 체크
