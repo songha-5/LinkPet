@@ -62,7 +62,7 @@ export default function UserLayout() {
                   className="object-cover"
                 />
                 <div className="relative w-full h-full">
-                  <label tabIndex={0} htmlFor={id} className="absolute -bottom-1 -right-1 block bg-neonGreen w-11 h-11 border-4 border-bg cursor-pointer">
+                  <label tabIndex={0} htmlFor={id} className="absolute -bottom-1 -right-1 block bg-neonGreen w-11 h-11 border-4 border-bg cursor-pointer hover:bg-font-white">
                     <svg viewBox="0 0 11 11" width="16" height="16" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                       <path d="M4,0h3v11h-3z M0,4h11v3h-11z"></path>
                     </svg>
