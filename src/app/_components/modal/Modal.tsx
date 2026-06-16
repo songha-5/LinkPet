@@ -13,8 +13,15 @@ export default function Modal() {
 
     if (isOpen) {
       modalRef.current.showModal()
+      document.body.style.overflow = "hidden"
     } else {
       modalRef.current.close()
+      document.body.style.overflow = "unset"
+    }
+
+    // 컴포넌트가 사라질때, 클린업
+    return () => {
+      document.body.style.overflow = "unset"
     }
   }, [isOpen])
 
