@@ -4,8 +4,9 @@ import Footer from "../_components/footer/Footer";
 import Header from "../_components/header/Header";
 import StateNoti from "../_components/StateNoti";
 import Tag from "../_components/Tag";
-import BaseButton from "../_components/button/BaseButton";
 import QnACard from "../_components/QnACard";
+import UserModal from "./_components/UserModal";
+import UserStateModal from "./_components/UserStateModal";
 
 export default function UserLayout() {
   const id = useId()
@@ -62,7 +63,7 @@ export default function UserLayout() {
                   className="object-cover"
                 />
                 <div className="relative w-full h-full">
-                  <label tabIndex={0} htmlFor={id} className="absolute -bottom-1 -right-1 block bg-neonGreen w-11 h-11 border-4 border-bg cursor-pointer hover:bg-font-white">
+                  <label tabIndex={0} htmlFor={id} className="absolute -bottom-1 -right-1 block bg-neonGreen w-11 h-11 border-4 border-bg cursor-pointer hover:bg-font-white transition-all">
                     <svg viewBox="0 0 11 11" width="16" height="16" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                       <path d="M4,0h3v11h-3z M0,4h11v3h-11z"></path>
                     </svg>
@@ -75,16 +76,10 @@ export default function UserLayout() {
             </div>
 
             {/* 아이디변경 / 비밀번호 변경 버튼 */}
-            <div className="mt-10">
-              <BaseButton content="아이디 변경 (UPDATE_ID)" outline color="white" className="text-[18px] h-14!"/>
-              <BaseButton content="비밀번호 변경 (PATCH_PW)" outline color="white" className="text-[18px] h-14! mt-4"/>
-            </div>
+            <UserModal />
 
             {/* 로그아웃 / 회원탈퇴 */}
-            <div className="flex justify-between mt-8 border-t-2 border-font-caption border-dashed">
-              <button className="cursor-pointer mbs-4 relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-caption text-sm hover:text-neonPink focus-visible:outline-neonPink">로그아웃 (LOGOUT)</button>
-              <button className="cursor-pointer mbs-4 relative transition-all after:absolute hover:after:border after:bottom-0 after:left-1/2 before:h-0.5 after:w-0 after:bg-neonPink after:duration-300 after:-translate-x-1/2 hover:after:w-full inline-flex text-font-caption text-sm hover:text-neonPink focus-visible:outline-neonPink">회원탈퇴 (TERMINATE)</button>
-            </div>
+            <UserStateModal />
           </div>
 
           {/* QnA */}
