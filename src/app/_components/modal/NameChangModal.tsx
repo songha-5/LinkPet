@@ -27,7 +27,12 @@ export default function NameChangeModal() {
       const result = await nameChange(data)
       if (result.success) {
         openModal(
-          <SimpleModal />
+          <SimpleModal
+            title="성공했습니다!"
+            content="닉네임 변경에 성공하였습니다!"
+            color="green"
+            buttonText="확인 (CONFIRM)"
+          />
         )
         router.refresh()
       } else {
