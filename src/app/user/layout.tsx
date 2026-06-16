@@ -72,7 +72,7 @@ export default function UserLayout() {
                 </div>
               </div>
 
-              <strong className="text-lg text-neonGreen mbs-3">ID: CYBER_PET7</strong>
+              <strong className="text-lg text-neonGreen mbs-3">NAME: CYBER_PET7</strong>
             </div>
 
             {/* 아이디변경 / 비밀번호 변경 버튼 */}

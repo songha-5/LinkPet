@@ -47,8 +47,14 @@ export const PasswordChangeSchma = z.object({
   message: '비밀번호가 일치하지 않습니다.',
 })
 
+// 닉네임 변경 유효성 검사
+export const NameChangeSchma = z.object({
+  name: nameSchema
+})
+
 export type LoginFormData = z.infer<typeof LoginSchma>
 export type SignupFormData = z.infer<typeof SignupSchma>
 export type PasswordFormData = z.infer<typeof PasswordSchma>
 export type PasswordEmailFormData = z.infer<typeof PasswordEmailSchma>
 export type PasswordChangeFormData = z.infer<typeof PasswordChangeSchma>
+export type NameChangeFormData = z.infer<typeof NameChangeSchma>
