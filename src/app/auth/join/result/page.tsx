@@ -16,7 +16,7 @@ export default function JoinResultPage() {
       <p className="text-[20px] text-center mt-6">삐빅- 통신 완료.<br /><strong className="text-neonPink">링크펫 행성</strong>에 오신 것을 환영합니다!</p>
       <p className="text-[20px] text-center mt-8">당신을 애타게 기다리던 반려동물이<br />방금 꼬리를 흔들기 시작했어요.<br />이제 링크펫 행성 산책을 시작해 볼까요?</p>
 
-      <BaseButton className="mt-14" color="pink" content="로그인하러 가기 (START)" link href="/"/>
+      <BaseButton className="mt-14" color="pink" content="펫링크로 여행떠나기 (START)" link href="/user"/>
     </FloatLayout>
   )
 }

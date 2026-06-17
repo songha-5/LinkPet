@@ -1,6 +1,7 @@
+import { PostgrestError } from "@supabase/postgrest-js";
 import { AuthError } from "@supabase/supabase-js";
 
-export function getErrorMessage(error: AuthError | null | undefined): string {
+export function getErrorMessage(error: AuthError | PostgrestError | null | undefined): string {
   if (!error || !error.message) {
     return "알 수 없는 오류가 발생했습니다. 다시 시도해 주세요.";
   }
@@ -45,6 +46,16 @@ export function getErrorMessage(error: AuthError | null | undefined): string {
       
     case "For security purposes, you can only request this once every 60 seconds":
       return "보안을 위해 60초 후에 다시 이메일을 요청할 수 있습니다."
+    
+    case "duplicate key value violates unique constraint \"users_username_key\"": // DB 제약 조건 이름에 따라 다를 수 있음
+      return "이미 사용 중인 별명입니다. 다른 별명을 입력해 주세요.";
+
+    case "database connection error":
+      return "데이터베이스 연결에 실패했습니다. 잠시 후 다시 시도해 주세요.";
+      
+    case "Permission denied for relation users":
+    case "row-level security policy violation":
+      return "변경 권한이 없습니다. 다시 로그인해 주세요.";
     
     default:
       console.error("처리되지 않은 Auth 에러:", error.message)

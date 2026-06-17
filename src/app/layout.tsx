@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Image from 'next/image';
+import Modal from './_components/modal/Modal';
 
 export const metadata: Metadata = {
   title: 'linkPet',
@@ -36,6 +37,7 @@ export default function RootLayout({
         <div className="absolute bottom-1/4 left-1/8 w-1.5 h-1.5 text-neonGreen shadow-[-6px_0_0_0_currentColor,6px_0_0_0_currentColor,0_-6px_0_0_currentColor,0_6px_0_0_currentColor] bg-neonGreen -z-2 scale-200 opacity-20"></div>
         <div className="absolute top-1/4 right-1/20 w-1.5 h-1.5 text-neonPink shadow-[-6px_0_0_0_currentColor,6px_0_0_0_currentColor,0_-6px_0_0_currentColor,0_6px_0_0_currentColor] bg-neonPink -z-2 scale-200 opacity-20"></div>
         {children}
+        <Modal />
       </body>
     </html>
   )

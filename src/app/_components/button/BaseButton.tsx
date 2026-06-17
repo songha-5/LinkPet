@@ -8,7 +8,7 @@ interface buttonProps{
   className?: string
   link?: boolean
   href?: string
-  onClick?: (e:React.MouseEvent<HTMLButtonElement>) => void
+  onClick?: (e:React.MouseEvent<HTMLElement>) => void
 }
 
 

@@ -34,7 +34,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
               id={id}
               ref={ref}
               {...props}
-              className="transition-all border-5 w-full px-5 py-3 placeholder:text-lg placeholder:text-font-subText focus-visible:border-neonPink shadow-[4px_4px_0_var(--color-font-white-shadow)] focus:shadow-[4px_4px_0_var(--color-neonPink)] outline-none"
+              className="transition-all border-5 w-full px-5 py-3 placeholder:text-lg placeholder:text-font-subText focus-visible:border-neonPink shadow-[4px_4px_0_var(--color-font-white-shadow)] focus:shadow-[4px_4px_0_var(--color-neonPink)] outline-none border-font-white text-font-white"
               aria-invalid={errorMsg ? "true" : "false"}
               aria-describedby={errorMsg ? errorId : undefined}
             />
