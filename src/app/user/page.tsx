@@ -1,5 +1,3 @@
-import { useId } from "react";
-import Image from "next/image";
 import Footer from "../_components/footer/Footer";
 import Header from "../_components/header/Header";
 import StateNoti from "../_components/StateNoti";
@@ -7,10 +5,30 @@ import Tag from "../_components/Tag";
 import QnACard from "../_components/QnACard";
 import UserModal from "./_components/UserModal";
 import UserStateModal from "./_components/UserStateModal";
+import Avata from "./_components/ProfileImage";
+import { createClient } from "@/src/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function UserPage() {
-  const id = useId()
+export default async function UserPage() {
 
+  // 유저 데이터 호출
+  const supabase = await createClient()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  
+  if (!user || authError) {
+    console.log("세션이 만료됬습니다.", authError)
+    redirect('/')
+  }
+
+  // 프로필사진 데이터 호출
+  const { data } = await supabase
+    .from('users')
+    .select('profile_image')
+    .eq('id', user.id)
+    .single()
+  
+  const profileImage = data?.profile_image || '/bg_2.svg'
+  
   return (
     <>
       <Header />
@@ -55,22 +73,7 @@ export default function UserPage() {
 
             <div className="flex flex-col items-center mbs-6 text-center self-center">
               {/* 이미지 업로드 */}
-              <div className="relative border-4 border-font-white w-40 h-40">
-                <Image
-                  src={"/bg_2.svg"}
-                  alt="유저 프로필 사진"
-                  fill
-                  className="object-cover"
-                />
-                <div className="relative w-full h-full">
-                  <label tabIndex={0} htmlFor={id} className="absolute -bottom-1 -right-1 block bg-neonGreen w-11 h-11 border-4 border-bg cursor-pointer hover:bg-font-white transition-all">
-                    <svg viewBox="0 0 11 11" width="16" height="16" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                      <path d="M4,0h3v11h-3z M0,4h11v3h-11z"></path>
-                    </svg>
-                  </label>
-                  <input type="file" id={id} accept="image/*" className="hidden" />
-                </div>
-              </div>
+              <Avata image={profileImage} />
 
               <strong className="text-lg text-neonGreen mbs-3">NAME: CYBER_PET7</strong>
             </div>
