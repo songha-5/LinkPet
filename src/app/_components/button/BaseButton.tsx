@@ -1,19 +1,22 @@
 import Link from "next/link"
+import { ReactNode } from "react"
 
 interface buttonProps{
   color?: "white" | "yellow" | "pink" | "green"
-  content: string
+  content: string | ReactNode
   type?: "button" | "submit"
   outline?: boolean
   className?: string
   link?: boolean
   href?: string
-  onClick?: (e:React.MouseEvent<HTMLElement>) => void
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void
+  disabled?: boolean
 }
 
 
-export default function BaseButton({ color = "green", content = "", type = "button", outline = false, className = "", link = false, href = "", onClick }: buttonProps) {
-  const baseStyles = "outline-none w-full h-16 text-2xl text-font tracking-[-2px] border-4 transition-all hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer"
+export default function BaseButton({ color = "green", content = "", type = "button", outline = false, className = "", link = false, href = "", onClick, disabled = false }: buttonProps) {
+  const baseStyles = "outline-none w-full h-16 text-2xl text-font tracking-[-2px] border-4 transition-all hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer flex justify-center items-center"
+  const disabledStyle = "cursor-not-allowed! hover:translate-x-0! hover:translate-y-0! focus-visible:border-gray-default bg-gray-default border-gray-default shadow-[4px_4px_0_var(--color-font-white-shadow)] hover:text-bg-bg text-bg-bg hover:bg-gray-default hover:shadow-[4px_4px_0_var(--color-font-white-shadow)]"
   const colorStyles = {
     green: {
       outline: "focus-visible:border-neonPink border-neonGreen shadow-[4px_4px_0_var(--color-neonGreen-opacity)] text-neonGreen hover:text-font hover:bg-neonGreen hover:shadow-[2px_2px_0_var(--color-neonGreen-opacity)]",
@@ -43,7 +46,7 @@ export default function BaseButton({ color = "green", content = "", type = "butt
           {content}
         </Link >  
       ) : (
-        <button onClick={onClick} type={type} className={`${baseStyles} ${buttonStyles} ${className}`}>
+        <button onClick={onClick} type={type} className={`${baseStyles} ${disabled ? disabledStyle : buttonStyles} ${className}`} disabled={disabled}>
           {content}
         </button>
       )}
