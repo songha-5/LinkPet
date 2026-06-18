@@ -38,8 +38,13 @@
 
   --animate-float: float 3s ease-in-out infinite;
   --animate-slowBounce: slowBounce 1.4s infinite;
+  --animate-blink: blink 1.5s infinite;
 }
 
+@keyframes blink {
+  0%, 48% {opacity: 0}
+  50%, 100% {opacity: 1}
+}
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
@@ -56,6 +61,14 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+/* 텍스트에디터 */
+.tiptap p.is-editor-empty:first-child::before,
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: theme('--color-font-subText');
+  font-size: 18px;
 }
 
 body {

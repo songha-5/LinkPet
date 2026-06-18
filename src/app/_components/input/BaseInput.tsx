@@ -7,10 +7,12 @@ interface InputProps extends ComponentProps<'input'> {
   errorMsg?: string
   className?: string
   password?: boolean
+  content?: string
+  disabled?: boolean
 }
 
 const BaseInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ title, errorMsg, className, password, ...props }, ref) => {
+  ({ title, errorMsg, className, password, content, disabled = false, ...props }, ref) => {
     const id = useId()
     const [onToggle, setOnToggle] = useState(false)
 
@@ -34,9 +36,11 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
               id={id}
               ref={ref}
               {...props}
+              value={content}
               className="transition-all border-5 w-full px-5 py-3 placeholder:text-lg placeholder:text-font-subText focus-visible:border-neonPink shadow-[4px_4px_0_var(--color-font-white-shadow)] focus:shadow-[4px_4px_0_var(--color-neonPink)] outline-none border-font-white text-font-white"
               aria-invalid={errorMsg ? "true" : "false"}
               aria-describedby={errorMsg ? errorId : undefined}
+              disabled={disabled}
             />
 
             {/* 비밀번호 보기 / 안보기 */}
