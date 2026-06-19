@@ -1,6 +1,6 @@
 import TiptapEditor from "@/src/app/_components/editor/Tiptap";
-import Tag from "@/src/app/_components/Tag";
 import Link from "next/link";
+import Question from "./_components/Question";
 
 export default function QnAPage() {
   return (
@@ -18,39 +18,7 @@ export default function QnAPage() {
       </div>
 
       {/* 질문리스트 */}
-      <section className="border-5 border-font-white p-7 bg-bg my-5">
-        <div>
-          <span className="block text-neonPink">USER_LOG // QUEST_NODE_07</span>
-          <h2 className="text-2xl mbs-1">타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 </h2>
-          
-          <div className="flex justify-between text-[14px] text-font-subText mbs-5 pbe-2 border-b-2 border-gray-default border-dashed">
-            <span>WRITER: CYBER_PET7</span>
-            <span>LOG_DATE: 2026.06.01 15:30</span>
-          </div>
-        </div>
-
-        <div className="pbs-4">
-          {/* 반려동물 정보 카드 */}
-          <div className="border-3 border-neonPink py-4 px-6 mbe-4">
-            <strong className="text-neonPink text-sm">[🐾] TARGET_PET_MANIFEST</strong>
-            <p className="text-lg">대상 개체: <span className="text-neonYellow">초코</span> (말티즈 / 3세 / 4.2kg)</p>
-
-            <div className="flex flex-row flex-wrap gap-2 mbs-2">
-              <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
-              <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
-              <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
-              <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
-              <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
-            </div>
-          </div>
-
-          {/* 에디터 자리 */}
-          <p className="text-lg">
-            저희 집 강아지
-            초코가 사흘 전부터 사료연산 버퍼에 오류가 생겼는지 통 입을 대지 않습니다. 원래 밥그릇 비우는 속도가 엄청 빠른 아이였는데, 이제는 간식 주입구 근처에 가져다 대도 고개를 돌려버리네요. 자꾸 거실 어두운 소파 뒤 구석 레이어에만 들어가서 나오지 않고 걱정입니다.
-          </p>
-        </div>
-      </section>
+      <Question userId="4"/>
       
       {/* 답변리스트 */}
       <section className="transition-all border-5 bg-bg border-neonGreen shadow-[6px_6px_0_var(--color-neonGreen)] p-8.5">
