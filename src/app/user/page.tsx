@@ -9,17 +9,13 @@ import Avata from "./_components/ProfileImage";
 import { createClient } from "@/src/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getUser } from "../_lib/getUser";
 
 export default async function UserPage() {
 
   // 유저 데이터 호출
   const supabase = await createClient()
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
-  
-  if (!user || authError) {
-    console.log("세션이 만료됬습니다.", authError)
-    redirect('/')
-  }
+  const user = await getUser()
 
   // 프로필사진 데이터 호출
   const { data } = await supabase
