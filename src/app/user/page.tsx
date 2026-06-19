@@ -8,6 +8,7 @@ import UserStateModal from "./_components/UserStateModal";
 import Avata from "./_components/ProfileImage";
 import { createClient } from "@/src/utils/supabase/server";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function UserPage() {
 
@@ -95,12 +96,12 @@ export default async function UserPage() {
               <QnACard title="QnA리스트가 잘들어오는지 확인합니다." tags={['태그1', '태그2']} update="2026-06-15T13:33:21.000Z" isAnwers={false} />
             </div>
             
-            <button type="button" className="group flex justify-center items-center focus-visible:outline-neonPink p-2 w-full border-3 border-gray-default text-gray-default hover:border-font-white hover:text-font-white transition-all mbs-4 cursor-pointer">
+            <Link href={'/qna/id/page/edit'} className="group flex justify-center items-center focus-visible:outline-neonPink p-2 w-full border-3 border-neonPink text-neonPink hover:bg-neonPink hover:text-font-white transition-all mbs-4 cursor-pointer">
               <span className="me-1">질문하기</span>
-              <svg viewBox="0 0 11 11" width="12" height="12" className="transition-all fill-gray-default group-hover:fill-white">
+              <svg viewBox="0 0 11 11" width="12" height="12" className="transition-all fill-neonPink group-hover:fill-white">
                 <path d="M4,0h3v11h-3z M0,4h11v3h-11z"></path>
               </svg>
-            </button>
+            </Link>
           </div>
         </section>
       </main>
