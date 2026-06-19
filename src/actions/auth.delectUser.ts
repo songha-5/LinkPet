@@ -4,15 +4,13 @@ import { revalidatePath } from "next/cache"
 import { createClient } from "../utils/supabase/server"
 import { supabaseConfig } from "../utils/supabase/config"
 import { createClientAdmin } from "../utils/supabase/admin"
+import { getUser } from "../app/_lib/getUser"
 
 export async function delectUserAction() {
   const supabase = await createClient()
   
   // 로그인 되어있는지 확인
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
-  if (authError || !user) {
-    return { success: false, message: "로그인 세션이 만료되었습니다." }
-  }
+  const user = await getUser()
 
   const bucketName = supabaseConfig.bucketName 
   await supabase.storage
