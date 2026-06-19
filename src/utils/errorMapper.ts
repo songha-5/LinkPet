@@ -57,6 +57,10 @@ export function getErrorMessage(error: AuthError | PostgrestError | null | undef
     case "row-level security policy violation":
       return "변경 권한이 없습니다. 다시 로그인해 주세요.";
     
+    // QnA 글 등록
+    case "Invalid input: expected string, received undefined":
+      return "글을 입력해주세요.";
+    
     default:
       console.error("처리되지 않은 Auth 에러:", error.message)
       return `인증 오류가 발생했습니다: ${error.message}`
