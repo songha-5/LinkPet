@@ -7,7 +7,6 @@ import UserModal from "./_components/UserModal";
 import UserStateModal from "./_components/UserStateModal";
 import Avata from "./_components/ProfileImage";
 import { createClient } from "@/src/utils/supabase/server";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getUser } from "../_lib/getUser";
 
@@ -18,14 +17,21 @@ export default async function UserPage() {
   const user = await getUser()
 
   // 프로필사진 데이터 호출
-  const { data } = await supabase
+  const { data: profileData } = await supabase
     .from('users')
     .select('profile_image')
     .eq('id', user.id)
     .single()
   
-  const profileImage = data?.profile_image || '/bg_2.svg'
+  const profileImage = profileData?.profile_image || '/bg_2.svg'
   
+  // QnA 리스트 호출
+  const { data: qnaData, error: qnaError } = await supabase.from('posts').select('id, title, is_answered, created_at, user_id').eq('user_id', user.id)
+  if (qnaError) {
+    console.log('QnA리스트를 불러오는 중 에러가 발생했습니다.')
+    throw new Error("QnA리스트를 불러오는중 에러가 발생하였습니다.")
+  }
+
   return (
     <>
       <Header />
@@ -87,9 +93,9 @@ export default async function UserPage() {
             <h2 className="text-2xl text-neonGreen">💾 MEDICAL_Q&A_STREAMS // 상담 내역 리스트</h2>
 
             <div className="flex flex-col gap-4 mbs-6 lg:overflow-y-scroll lg:max-h-94 lg:min-h-94">
-              <QnACard title="QnA리스트가 잘들어오는지 확인합니다." tags={['태그1', '태그2']} update="2026-06-15T13:33:21.000Z" isAnwers={false} />
-              <QnACard title="QnA리스트가 잘들어오는지 확인합니다." tags={['태그1', '태그2']} update="2026-06-15T13:33:21.000Z" isAnwers={false} />
-              <QnACard title="QnA리스트가 잘들어오는지 확인합니다." tags={['태그1', '태그2']} update="2026-06-15T13:33:21.000Z" isAnwers={false} />
+              {qnaData.map((item) => (
+                <QnACard id={item.id} user_id={item.user_id} title={item.title} tags={['태그1', '태그2']} update={item.time} isAnwers={item.is_answered} />
+              ))}
             </div>
             
             <Link href={'/qna/id/page/edit'} className="group flex justify-center items-center focus-visible:outline-neonPink p-2 w-full border-3 border-neonPink text-neonPink hover:bg-neonPink hover:text-font-white transition-all mbs-4 cursor-pointer">
