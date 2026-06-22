@@ -1,5 +1,3 @@
-'use client'
-
 import Link from "next/link";
 import FloatLayout from "@/src/app/_components/FloatLayout";
 import PasswordForm from "./_components/PasswordForm";
