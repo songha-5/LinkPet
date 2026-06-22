@@ -1,22 +1,21 @@
-'use server'
-
 import Tag from "@/src/app/_components/Tag";
 import { getUser } from "@/src/app/_lib/getUser";
 import PostDetail from "@/src/utils/PostDetail";
 import { createClient } from "@/src/utils/supabase/server";
 
 interface QuestionProp {
-  userId: string
+  id: string
+  page: string
 }
 
-export default async function Question({userId}: QuestionProp) {
+export default async function Question({ id, page }: QuestionProp) {
 
   // 데이터 호출
   // 유저가 존재하는지 확인
   const user = await getUser()
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from('posts').select('title, body, created_at').eq('user_id', user.id).eq('id', userId).single()
+  const { data, error } = await supabase.from('posts').select('title, body, created_at').eq('user_id', id).eq('id', page).single()
   if (error || data === null) {
     console.log('유저 QnA글을 불러오지 못했습니다.', error.message)
     // 404페이지

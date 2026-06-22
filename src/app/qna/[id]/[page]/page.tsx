@@ -1,8 +1,16 @@
-import TiptapEditor from "@/src/app/_components/editor/Tiptap";
+
 import Link from "next/link";
 import Question from "./_components/Question";
 
-export default function QnAPage() {
+interface QnAPageProps {
+  params: Promise<{ id: string;  page: string}>
+}
+
+export default async function QnAPage({ params }: QnAPageProps) {
+  const paramsProps = await params
+  const paramsId = paramsProps.id
+  const paramsPage = paramsProps.page
+
   return (
     <>
       <h1 className="sr-only">나의 반려동물 Q&A 질문 / 답</h1>
@@ -18,7 +26,7 @@ export default function QnAPage() {
       </div>
 
       {/* 질문리스트 */}
-      <Question userId="4"/>
+      <Question id={paramsId} page={paramsPage} />
       
       {/* 답변리스트 */}
       <section className="transition-all border-5 bg-bg border-neonGreen shadow-[6px_6px_0_var(--color-neonGreen)] p-8.5">
@@ -56,7 +64,7 @@ export default function QnAPage() {
 
         {/* 에디터 */}
         <div className="mbs-4 border-3 px-5 py-5 shadow-[4px_4px_0_var(--color-font-white-shadow)]">
-          <TiptapEditor />
+          {/* <TiptapEditor /> */}
         </div>
 
         <div className="flex gap-3 self-end mbs-4">
