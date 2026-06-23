@@ -47,21 +47,13 @@ export default function AdminAnswer() {
       try {
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
-        const { data: postData } = await supabase.from('posts')
-          .select('admin_body, is_answered, admin_user:users!posts_admin_id_fkey(username)')
-          .eq('user_id', paramsId)
-          .eq('id', paramPage)
-          .single()
-        const { data: roleData } = await supabase.from('users')
-          .select('role, username')
-          .eq('id', user.id)
-          .single()
+        const { data: postData } = await supabase.from('posts').select('admin_body, is_answered, admin_user:users!posts_admin_id_fkey(username)').eq('user_id', paramsId).eq('id', paramPage).single()
+        const { data: roleData } = await supabase.from('users').select('role, username').eq('id', user.id).single()
         
         setRoleData(roleData)
         setUserData(user)
         setPostData(postData as AdminAnswerPostProps)
     
-        console.log("가져온 글 데이터:", postData);
       } catch (error) {
         console.log("데이터를 불러오지 못했습니다.")
         // 404페이지

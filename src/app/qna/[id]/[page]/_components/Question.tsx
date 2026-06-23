@@ -14,7 +14,17 @@ export default async function Question({ id, page }: QuestionProp) {
   // 유저가 존재하는지 확인
   const user = await userChecked()
   const supabase = await createClient()
-
+  const { data: userData, error: userError } = await supabase
+    .from('users')
+    .select('username')
+    .eq('id', user.id)
+    .single()
+  if (userData === null) {
+    console.log('유저 정보를 불러오지 못했습니다.', userError.message)
+    // 404페이지
+    return
+  }
+  
   const { data, error } = await supabase.from('posts').select('title, body, created_at').eq('user_id', id).eq('id', page).single()
   if (error || data === null) {
     console.log('유저 QnA글을 불러오지 못했습니다.', error.message)
@@ -35,7 +45,7 @@ export default async function Question({ id, page }: QuestionProp) {
         <h2 className="text-2xl mbs-1">{data.title}</h2>
         
         <div className="flex justify-between text-[14px] text-font-subText mbs-5 pbe-2 border-b-2 border-gray-default border-dashed">
-          <span>WRITER: CYBER_PET7</span>
+          <span>WRITER: {userData.username}</span>
           <span>LOG_DATE: {year}.{month}.{day}</span>
         </div>
       </div>

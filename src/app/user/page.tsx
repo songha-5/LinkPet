@@ -103,7 +103,6 @@ export default async function UserPage() {
 
             {/* 아이디변경 / 비밀번호 변경 버튼 */}
             <UserModal />
-
             {/* 로그아웃 / 회원탈퇴 */}
             <UserStateModal />
           </div>
@@ -112,7 +111,7 @@ export default async function UserPage() {
           <div className="border-4 border-font-white mt-4 p-9 bg-bg lg:mt-0 lg:flex-1">
             <h2 className="text-2xl text-neonGreen">💾 MEDICAL_Q&A_STREAMS // 상담 내역 리스트</h2>
 
-            <div className="flex flex-col gap-4 mbs-6 lg:overflow-y-scroll lg:max-h-94 lg:min-h-94">
+            <div className={`flex flex-col gap-4 mbs-6 lg:overflow-y-scroll ${userData?.role === "ADMIN" ? 'lg:max-h-110 lg:min-h-110': 'lg:max-h-94 lg:min-h-94'}`}>
               {qnaSort.map((item) => (
                 <QnACard key={item.id} id={item.id} user_id={item.user_id} title={item.title} tags={['태그1', '태그2']} update={item.created_at} isAnwers={item.is_answered} />
               ))}
