@@ -6,13 +6,19 @@ import { TiptapInput } from "@/src/app/_components/input/TiptabInput";
 import SimpleModal from "@/src/app/_components/modal/SimpleModal";
 import { QnACreateFormData, QnACreateSchema } from "@/src/app/_lib/qna";
 import { useModalStore } from "@/src/store/useModalStore";
+import { createClient } from "@/src/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-export default function EditPage() {
+interface EditPageProps {
+  id: string
+  page: string
+}
+
+export default function EditPage({ id, page }: EditPageProps) {
   const router = useRouter()
   const openModal = useModalStore((state) => state.openModal)
 
