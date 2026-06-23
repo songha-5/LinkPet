@@ -7,7 +7,7 @@ import SimpleModal from "@/src/app/_components/modal/SimpleModal";
 import { QnACreateFormData, QnACreateSchema } from "@/src/app/_lib/qna";
 import { useModalStore } from "@/src/store/useModalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderCircle, LoaderCircleIcon } from "lucide-react";
+import { LoaderCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

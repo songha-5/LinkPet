@@ -4,7 +4,7 @@ import { NameChangeFormData, NameChangeSchma } from "../app/_lib/auth";
 import { createClient } from "../utils/supabase/server";
 import { getErrorMessage } from "../utils/errorMapper";
 import { revalidatePath } from "next/cache";
-import { getUser } from "../app/_lib/getUser";
+import { userChecked } from "../app/_lib/userChecked";
 
 export async function nameChange(data: NameChangeFormData) {
   // 유효성 검사
@@ -18,7 +18,7 @@ export async function nameChange(data: NameChangeFormData) {
   const supabase = await createClient()
 
   // 현재 로그인한 유저의 정보(ID) 추출
-  const user = await getUser()
+  const user = await userChecked()
   
   const { name } = parsed.data
 

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { PasswordUserChangeFormData, PasswordUserChangeSchma } from "../app/_lib/auth";
 import { getErrorMessage } from "../utils/errorMapper";
 import { createClient } from "../utils/supabase/server";
-import { getUser } from "../app/_lib/getUser";
+import { userChecked } from "../app/_lib/userChecked";
 import { success } from "zod";
 
 export async function passwordUserChange(data: PasswordUserChangeFormData) {  
@@ -18,7 +18,7 @@ export async function passwordUserChange(data: PasswordUserChangeFormData) {
 
   const supabase = await createClient()
   // 현재 로그인한 유저의 정보(ID) 추출
-  const user = await getUser()
+  const user = await userChecked()
   if (!user.email) {
     return { success: false, message: "이메일 정보가 없는 계정입니다."}
   }

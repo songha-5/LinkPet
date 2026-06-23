@@ -1,5 +1,5 @@
 import Tag from "@/src/app/_components/Tag";
-import { getUser } from "@/src/app/_lib/getUser";
+import { userChecked } from "@/src/app/_lib/userChecked";
 import PostDetail from "@/src/utils/PostDetail";
 import { createClient } from "@/src/utils/supabase/server";
 
@@ -12,7 +12,7 @@ export default async function Question({ id, page }: QuestionProp) {
 
   // 데이터 호출
   // 유저가 존재하는지 확인
-  const user = await getUser()
+  const user = await userChecked()
   const supabase = await createClient()
 
   const { data, error } = await supabase.from('posts').select('title, body, created_at').eq('user_id', id).eq('id', page).single()
