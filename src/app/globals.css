@@ -38,7 +38,7 @@
 
   --animate-float: float 3s ease-in-out infinite;
   --animate-slowBounce: slowBounce 1.4s infinite;
-  --animate-blink: blink 1.5s infinite;
+  --animate-blink: blink 1.5s reverse infinite ;
 }
 
 @keyframes blink {

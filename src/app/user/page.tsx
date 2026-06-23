@@ -8,29 +8,49 @@ import UserStateModal from "./_components/UserStateModal";
 import Avata from "./_components/ProfileImage";
 import { createClient } from "@/src/utils/supabase/server";
 import Link from "next/link";
-import { getUser } from "../_lib/getUser";
+import { userChecked } from "../_lib/userChecked";
 
 export default async function UserPage() {
 
   // 유저 데이터 호출
   const supabase = await createClient()
-  const user = await getUser()
+  const user = await userChecked()
 
   // 프로필사진 데이터 호출
-  const { data: profileData } = await supabase
+  const { data: userData } = await supabase
     .from('users')
-    .select('profile_image')
+    .select('profile_image, role')
     .eq('id', user.id)
     .single()
   
-  const profileImage = profileData?.profile_image || '/bg_2.svg'
+  const profileImage = userData?.profile_image || '/bg_2.svg'
   
   // QnA 리스트 호출
-  const { data: qnaData, error: qnaError } = await supabase.from('posts').select('id, title, is_answered, created_at, user_id').eq('user_id', user.id)
-  if (qnaError) {
+  // USER QnA 리스트
+  const { data: userQnaData, error: userQnaError } = await supabase.from('posts').select('id, title, is_answered, created_at, user_id').eq('user_id', user.id)
+  // ADMIN QnA 리스트
+  const { data: adminQnaData, error: adminQnaError } = await supabase.from('posts').select('id, title, is_answered, created_at, user_id')
+  if (adminQnaError || userQnaError) {
     console.log('QnA리스트를 불러오는 중 에러가 발생했습니다.')
     throw new Error("QnA리스트를 불러오는중 에러가 발생하였습니다.")
   }
+  
+  // 정렬기능 추가 (최신순, 답변순)
+  const dataType = userData?.role === "ADMIN" ? adminQnaData : userQnaData
+
+  const qnaSort = [...dataType].sort((a, b) => {
+    const answeredA = Number(a.is_answered)
+    const answeredB = Number(b.is_answered)
+
+    if (answeredA !== answeredB) {
+      return answeredA - answeredB
+    }
+
+    const timeA = new Date(a.created_at).getTime()
+    const timeB = new Date(b.created_at).getTime()
+
+    return timeB - timeA
+  })
 
   return (
     <>
@@ -93,17 +113,20 @@ export default async function UserPage() {
             <h2 className="text-2xl text-neonGreen">💾 MEDICAL_Q&A_STREAMS // 상담 내역 리스트</h2>
 
             <div className="flex flex-col gap-4 mbs-6 lg:overflow-y-scroll lg:max-h-94 lg:min-h-94">
-              {qnaData.map((item) => (
-                <QnACard id={item.id} user_id={item.user_id} title={item.title} tags={['태그1', '태그2']} update={item.time} isAnwers={item.is_answered} />
+              {qnaSort.map((item) => (
+                <QnACard key={item.id} id={item.id} user_id={item.user_id} title={item.title} tags={['태그1', '태그2']} update={item.created_at} isAnwers={item.is_answered} />
               ))}
             </div>
             
-            <Link href={'/qna/id/page/edit'} className="group flex justify-center items-center focus-visible:outline-neonPink p-2 w-full border-3 border-neonPink text-neonPink hover:bg-neonPink hover:text-font-white transition-all mbs-4 cursor-pointer">
-              <span className="me-1">질문하기</span>
-              <svg viewBox="0 0 11 11" width="12" height="12" className="transition-all fill-neonPink group-hover:fill-white">
-                <path d="M4,0h3v11h-3z M0,4h11v3h-11z"></path>
-              </svg>
-            </Link>
+            {/* 질문 등록은 USER만 볼 수 있음 */}
+            {userData?.role === "USER" && (
+              <Link href={'/qna/id/page/edit'} className="group flex justify-center items-center focus-visible:outline-neonPink p-2 w-full border-3 border-neonPink text-neonPink hover:bg-neonPink hover:text-font-white transition-all mbs-4 cursor-pointer">
+                <span className="me-1">질문하기</span>
+                <svg viewBox="0 0 11 11" width="12" height="12" className="transition-all fill-neonPink group-hover:fill-white">
+                  <path d="M4,0h3v11h-3z M0,4h11v3h-11z"></path>
+                </svg>
+              </Link>
+            )}
           </div>
         </section>
       </main>
