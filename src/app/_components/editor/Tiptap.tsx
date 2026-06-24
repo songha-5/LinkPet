@@ -6,28 +6,21 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 
-const TiptapEditor = () => {
+const TiptapEditor = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Link,
+      Image,
       Placeholder.configure({
         placeholder: '여기에 내용을 작성해주세요.',
-      }),
-      Link.configure({ openOnClick: false }),
-      Image
+      })
     ],
-    content: '',
-    editable: true,
+    content: value,
     autofocus: 'end',
-    onUpdate: ({ editor }) => {
-      const html = editor.getHTML()
-      console.log(html)
-    }
+    onUpdate: ({ editor }) => onChange(editor.getHTML()),
   })
-
-  return (
-    <EditorContent className='cursor-text' editor={editor} />
-  )
+  return <EditorContent editor={editor} />
 }
 
 export default TiptapEditor

@@ -46,7 +46,7 @@ export async function updateSession(request: NextRequest) {
       },
     }
   )
-  // getUser()로 변경 - 서버에서 토큰 검증
+  // userChecked()로 변경 - 서버에서 토큰 검증
   const { data: { user } } = await supabase.auth.getUser()
 
   const currentPath = request.nextUrl.pathname
