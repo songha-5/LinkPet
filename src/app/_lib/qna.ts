@@ -3,9 +3,11 @@ import z from "zod"
 const questTitleSchema = z.string().min(2, '질문 제목은 2자 이상이여야 합니다.')
 const questContentSchema = z.string().min(18, '질문은 10자 이상이여야 합니다.')
 const questContentAdminSchema = z.string().min(18, '답변은 10자 이상이여야 합니다.')
+const questIDSchema = z.number().optional()
 
 // 게시글 등록 유효성 검사
 export const QnACreateSchema = z.object({
+  id: questIDSchema,
   title: questTitleSchema,
   content: questContentSchema
 })
