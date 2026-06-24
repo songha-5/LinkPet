@@ -61,6 +61,9 @@ export function getErrorMessage(error: AuthError | PostgrestError | null | undef
     case "Invalid input: expected string, received undefined":
       return "글을 입력해주세요.";
     
+    case `"invalid input syntax for type integer: "05f85311-2295-4100-a437-6312d624b525"`:
+      return "오류가 발생했습니다. 다시 시도해주세요."
+    
     default:
       console.error("처리되지 않은 Auth 에러:", error.message)
       return `인증 오류가 발생했습니다: ${error.message}`
