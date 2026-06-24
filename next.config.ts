@@ -7,8 +7,9 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'mtvgmaymdnljmhbfedfw.supabase.co',
         port: '',
-        pathname: '/**'
+        pathname: '/**',
       },
+      new URL('http://k.kakaocdn.net/**')
     ],
   },
 };
