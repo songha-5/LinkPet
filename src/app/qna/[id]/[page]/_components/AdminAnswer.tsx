@@ -14,10 +14,6 @@ import PostDetail from "@/src/utils/PostDetail"
 interface AdminAnswerUserProps {
   id?: string
 }
-interface AdminAnswerRoleProps {
-  role?: string
-  username?: string
-}
 interface AdminAnswerPostProps {
   admin_id?: string
   is_answered?: boolean
@@ -27,30 +23,37 @@ interface AdminAnswerPostProps {
     username?: string
   }
 }
+interface AdminAnswerProps {
+  role: string
+  username: string
+}
 
-export default function AdminAnswer() {
+export default function AdminAnswer({ role, username }: AdminAnswerProps) {
   const router = useRouter()
   const params = useParams()
   const paramsId = params.id
   const paramPage = params.page
   const openModal = useModalStore((state) => state.openModal)
   const [userData, setUserData] = useState<AdminAnswerUserProps | null>(null)
-  const [roleData, setRoleData] = useState<AdminAnswerRoleProps | null>(null)
   const [postData, setPostData] = useState<AdminAnswerPostProps | null>(null)
   const [edit, setEdit] = useState(false)
 
   const currentTime = new Date().toISOString()
 
   useEffect(() => {
+    let isCancelled = false
+
     const fatchData = async () => {
       const supabase = createClient()
       try {
-        const { data: { user } } = await supabase.auth.getUser()
+        const { data: { user } } = await supabase.auth.
+        getUser()
         if (!user) return
+
         const { data: postData } = await supabase.from('posts').select('admin_body, is_answered, admin_user:users!posts_admin_id_fkey(username)').eq('user_id', paramsId).eq('id', paramPage).single()
-        const { data: roleData } = await supabase.from('users').select('role, username').eq('id', user.id).single()
+
+        if(isCancelled) return
         
-        setRoleData(roleData)
         setUserData(user)
         setPostData(postData as AdminAnswerPostProps)
     
@@ -61,6 +64,10 @@ export default function AdminAnswer() {
       }
     }
     fatchData()
+
+    return () => {
+      isCancelled = true
+    }
   }, [paramsId, paramPage])
 
   const {
@@ -85,13 +92,9 @@ export default function AdminAnswer() {
         console.log("세션이 만료됬습니다.")
         throw new Error("로그인이 필요합니다.")
       }
-      if (!roleData) {
-        console.log("권한이 등록이 안되어있습니다.")
-        throw new Error("권한이 필요합니다.")
-      }
 
       // 글 등록 권한 체크
-      if (roleData.role === 'USER') {
+      if (role === 'USER') {
         console.log('답변 등록 권한이 없습니다.')
         router.push('/')
         return
@@ -133,7 +136,7 @@ export default function AdminAnswer() {
           is_answered: true,
           admin_id: userData.id,
           admin_created_at: currentTime,
-          admin_user: { username: roleData.username }
+          admin_user: { username: username }
         }
       })
       
@@ -143,13 +146,13 @@ export default function AdminAnswer() {
     }
   }
 
-  if (!postData || !roleData) {
+  if (!postData) {
     return <>404에러 데이터가 없습니다 화면</>
   }
 
   return (
     <>
-      {roleData.role === "USER" && postData.is_answered === false ? (
+      {role === "USER" && postData.is_answered === false ? (
         <section className="flex flex-col items-center border-5 bg-bg border-dashed border-neonYellow shadow-[6px_6px_0_var(--color-neonYellow-opacity)] p-8.5">
           <strong className="animate-blink text-neonYellow text-2xl text-center" aria-label="전문가의 답변을 기다리는 중입니다.">[ ⏳ . . . ]<br />AWAITING_VET_RESPONSE</strong>
           <p className="text-center mbs-4 text-gray-default">전문 수의사 네트워크 노드에 패킷 분배 완료.<br />답변 연산을 동기화 중입니다.<br />실시간 매칭 상태: <span className="text-neonPink">[BUFFERING...]</span></p>
@@ -161,7 +164,7 @@ export default function AdminAnswer() {
           <div className="items-center flex border-b-2 pbe-5 border-gray-default border-dashed pbs-4 mbe-6">
             <div className={`border-3 pbs-2 pbe-1 px-1 text-3xl ${edit ? 'border-neonYellow' : 'border-neonGreen'}`}>🩺</div>
             <div className="ms-4">
-              <strong className={`block text-lg ${edit ? 'text-neonYellow' : 'text-neonGreen'}`}>DR. 픽셀캣 ({postData?.admin_user?.username})</strong>
+              <strong className={`block text-lg ${edit ? 'text-neonYellow' : 'text-neonGreen'}`}>DR. 픽셀캣 ({username})</strong>
               <p className="text-[14px] text-font-subText">LINKPET 전문 의료 네트워크 위원 // 메디컬 코드 #402</p>
             </div>
           </div>
@@ -185,7 +188,7 @@ export default function AdminAnswer() {
             <PostDetail data={postData.admin_body || ''} />
           )}
 
-          {roleData?.role === 'ADMIN' && (
+          {role === 'ADMIN' && (
             <div className="flex gap-3 self-end mbs-4">
               {edit === true ? (
                 <>
