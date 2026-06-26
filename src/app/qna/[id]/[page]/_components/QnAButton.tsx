@@ -1,4 +1,4 @@
-import { userChecked } from "@/src/app/_lib/userChecked";
+import { getSession } from "@/src/app/_lib/getSession";
 import { createClient } from "@/src/utils/supabase/server";
 import Link from "next/link";
 import DeleteRow from "./DeleteTable";
@@ -11,7 +11,10 @@ interface QnAButtonProps {
 export default async function QnAButton({ id, page }: QnAButtonProps) {
   const supabase = await createClient()
 
-  const user = await userChecked()
+  const user = await getSession()
+  if (!user) {
+    return { success: false, message: "로그인이 필요합니다." }
+  }
   const { data: roleData, error } = await supabase.from('users')
     .select('role')
     .eq('id', user.id)

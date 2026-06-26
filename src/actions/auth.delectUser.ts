@@ -4,13 +4,17 @@ import { revalidatePath } from "next/cache"
 import { createClient } from "../utils/supabase/server"
 import { supabaseConfig } from "../utils/supabase/config"
 import { createClientAdmin } from "../utils/supabase/admin"
-import { userChecked } from "../app/_lib/userChecked"
+import { getSession } from "../app/_lib/getSession"
 
 export async function delectUserAction() {
   const supabase = await createClient()
   
   // 로그인 되어있는지 확인
-  const user = await userChecked()
+  const user = await getSession()
+
+  if (!user) {
+    return { success: false, message: "로그인이 필요합니다." }
+  }
 
   const bucketName = supabaseConfig.bucketName 
   await supabase.storage
