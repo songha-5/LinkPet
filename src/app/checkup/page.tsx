@@ -66,7 +66,18 @@ export default function CheckupPage() {
             className="[&_strong]:text-[16px] mbs-4"
           />
           
-          <BaseRadio />
+          <div className="flex gap-2">
+            <BaseRadio
+              content="여자아이"
+              name="gender" 
+              value="girl"
+            />
+            <BaseRadio
+              content="남자아이"
+              name="gender"
+              value="boy" 
+            />
+          </div>
 
           <div className="">
             성별
