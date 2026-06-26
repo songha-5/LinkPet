@@ -1,10 +1,10 @@
 "use server"
 
 import { QnACreateFormData, QnACreateSchema } from "../app/_lib/qna";
-import { getSession } from "../app/_lib/getSession";
 import { getErrorMessage } from "../utils/errorMapper";
 import { createClient } from "../utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { getUser } from "../app/_lib/getUser";
 
 export async function qnaCreateAction(data:QnACreateFormData) {
   // 유효성 검사
@@ -17,11 +17,7 @@ export async function qnaCreateAction(data:QnACreateFormData) {
 
   // supabase로 데이터 호출
   const supabase = await createClient()
-  const user = await getSession()
-
-  if (!user) {
-    return { success: false, message: "로그인이 필요합니다." }
-  }
+  const user = await getUser()
 
   const { title, content } = parsed.data
 

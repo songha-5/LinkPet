@@ -8,16 +8,13 @@ import UserStateModal from "./_components/UserStateModal";
 import Avata from "./_components/ProfileImage";
 import { createClient } from "@/src/utils/supabase/server";
 import Link from "next/link";
-import { getSession } from "../_lib/getSession";
+import { getUser } from "../_lib/getUser";
 
 export default async function UserPage() {
 
   // 유저 데이터 호출
   const supabase = await createClient()
-  const user = await getSession()
-  if (!user) {
-    return { success: false, message: "로그인이 필요합니다." }
-  }
+  const user = await getUser()
 
   // 프로필사진 데이터 호출
   const { data: userData } = await supabase
