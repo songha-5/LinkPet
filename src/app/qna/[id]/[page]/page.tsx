@@ -3,6 +3,7 @@ import Question from "./_components/Question";
 import AdminAnswer from "./_components/AdminAnswer";
 import { createClient } from "@/src/utils/supabase/server";
 import QnAButton from "./_components/QnAButton";
+import { getUser } from "@/src/app/_lib/getUser";
 
 interface QnAPageProps {
   params: Promise<{ id: string;  page: string}>
@@ -26,15 +27,28 @@ export default async function QnAPage({ params }: QnAPageProps) {
     return
   }
 
+  const user = await getUser()
+  const { data: roleData } = await supabase
+    .from('users')
+    .select('role, username')
+    .eq('id', user.id)
+    .single()
+
+  if (!roleData) {
+    console.log("유저 정보를 불러오지 못했습니다.")
+    return  
+  }
+
+
   return (
     <>
       <h1 className="sr-only">나의 반려동물 Q&A 질문 / 답</h1>
       {/* 돌아가기 / 수정 / 삭제 버튼 */}
-      <QnAButton id={paramsId} page={paramsPage} />
+      <QnAButton id={paramsId} page={paramsPage} role={roleData.role}/>
       {/* 질문리스트 */}
-      <Question id={paramsId} page={paramsPage} />
+      <Question id={paramsId} page={paramsPage} user={user}/>
       {/* 답변 */}
-      <AdminAnswer />
+      <AdminAnswer role={roleData.role} username={roleData.username} />
     </>
   )
 }
