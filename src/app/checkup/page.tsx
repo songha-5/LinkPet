@@ -1,6 +1,18 @@
 import BaseButton from "../_components/button/BaseButton";
 import BaseInput from "../_components/input/BaseInput";
+import BaseRadio from "../_components/radio/BaseRadio";
 import BaseSelect from "../_components/select/BaseSelect";
+
+
+const AGE_OPTIONS = [
+  { value: "1", label: "1 세 (1_YEAR_OLD)" },
+  { value: "2", label: "2 세 (2_YEAR_OLD)" },
+  { value: "3", label: "3 세 (3_YEAR_OLD)" },
+  { value: "4", label: "4 세 (4_YEAR_OLD)" },
+  { value: "5", label: "5 세 (5_YEAR_OLD)" },
+  { value: "6", label: "6 세 (6_YEAR_OLD)" },
+  { value: "7", label: "7 세 (7_YEAR_OLD)" }
+]
 
 export default function CheckupPage() {
   return (
@@ -42,16 +54,19 @@ export default function CheckupPage() {
             className="[&_strong]:text-[16px] mbs-10"
           />
 
-          {/* select */}
           <BaseSelect
             title="PET_AGE // 개체 나이"
             placeholder="나이를 선택하세요"
+            options={AGE_OPTIONS}
           />
+
           <BaseInput
             title="PET_NAME // 개체 체중"
             placeholder="반려동물의 이름을 입력하세요"
             className="[&_strong]:text-[16px] mbs-4"
           />
+          
+          <BaseRadio />
 
           <div className="">
             성별
