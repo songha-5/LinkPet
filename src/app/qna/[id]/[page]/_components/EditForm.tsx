@@ -90,7 +90,7 @@ export default function EditForm({ id, title, body }: EditFormProps) {
         <p aria-live="assertive" className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
 
         <div className="flex gap-3 justify-end mbs-4">
-          <Link href={'/'} className="border-3 border-font-white text-font-wborder-font-white py-1 px-6 cursor-pointer hover:bg-font-white hover:text-bg transition-all inline-block">취소 (CANCEL)</Link>
+          <Link href={'/user'} className="border-3 border-font-white text-font-wborder-font-white py-1 px-6 cursor-pointer hover:bg-font-white hover:text-bg transition-all inline-block">취소 (CANCEL)</Link>
           <button type="submit" disabled={isSubmitting} className="border-3 border-neonGreen text-neonborder-neonGreen py-1 px-6 cursor-pointer hover:bg-neonGreen hover:text-bg transition-all inline-block text-neonGreen disabled:border-gray-default disabled:text-gray-default disabled:cursor-not-allowed disabled:hover:bg-bg">
             {isSubmitting ? <span className="flex items-center justify-center gap-2"><LoaderCircleIcon className="animate-spin w-4 h-4" /> 로딩중</span> : "등록 (APPLY_PATCH)"}
           </button>
