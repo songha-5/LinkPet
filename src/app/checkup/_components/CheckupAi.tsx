@@ -1,5 +1,4 @@
 import ImageButton from "../../_components/button/ImageButton";
-import BaseInput from "../../_components/input/BaseInput";
 
 export default function CheckupAi() {
   return (
@@ -8,7 +7,7 @@ export default function CheckupAi() {
 
       <ImageButton className="mbs-10" />
 
-      <p className="text-center mbs-4 border-3 border-gray-default border-dashed bg-bg-gray-100 px-4 py-2">이미지를 올리시면 우리 반려동물의 건강상태를 검사해줘요!</p>
+      <p className="text-center mbs-4 border-3 border-gray-default border-dashed bg-bg-gray-100 px-4 py-2">이미지를 올리시면 <span className="text-neonPink">AI가</span> 우리 반려동물의 건강상태를 검사해줘요!</p>
     </div>
   )
 }
