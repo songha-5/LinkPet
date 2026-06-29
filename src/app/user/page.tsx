@@ -8,13 +8,13 @@ import UserStateModal from "./_components/UserStateModal";
 import Avata from "./_components/ProfileImage";
 import { createClient } from "@/src/utils/supabase/server";
 import Link from "next/link";
-import { userChecked } from "../_lib/userChecked";
+import { getUser } from "../_lib/getUser";
 
 export default async function UserPage() {
 
   // 유저 데이터 호출
   const supabase = await createClient()
-  const user = await userChecked()
+  const user = await getUser()
 
   // 프로필사진 데이터 호출
   const { data: userData } = await supabase
@@ -24,31 +24,27 @@ export default async function UserPage() {
     .single()
   
   const profileImage = userData?.profile_image || '/bg_2.svg'
-  
+  const isAdmin = userData?.role === "ADMIN"
   // QnA 리스트 호출
   // USER QnA 리스트
-  const { data: userQnaData, error: userQnaError } = await supabase.from('posts').select('id, title, is_answered, created_at, user_id').eq('user_id', user.id)
-  // ADMIN QnA 리스트
-  const { data: adminQnaData, error: adminQnaError } = await supabase.from('posts').select('id, title, is_answered, created_at, user_id')
-  if (adminQnaError || userQnaError) {
+  const { data: qnaData, error: qnaError } = isAdmin ? 
+   await supabase.from('posts').select('id, title, is_answered, created_at, user_id') :
+   await supabase.from('posts').select('id, title, is_answered, created_at, user_id').eq('user_id', user.id)
+  if (qnaError) {
     console.log('QnA리스트를 불러오는 중 에러가 발생했습니다.')
     throw new Error("QnA리스트를 불러오는중 에러가 발생하였습니다.")
   }
   
   // 정렬기능 추가 (최신순, 답변순)
-  const dataType = userData?.role === "ADMIN" ? adminQnaData : userQnaData
-
-  const qnaSort = [...dataType].sort((a, b) => {
+  const qnaSort = [...qnaData].sort((a, b) => {
     const answeredA = Number(a.is_answered)
     const answeredB = Number(b.is_answered)
-
     if (answeredA !== answeredB) {
       return answeredA - answeredB
     }
 
     const timeA = new Date(a.created_at).getTime()
     const timeB = new Date(b.created_at).getTime()
-
     return timeB - timeA
   })
 

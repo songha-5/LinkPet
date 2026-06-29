@@ -17,6 +17,7 @@ export default function LoginModal() {
         userPassword="password1"
       />
     )
+    return () => closeModal()
   }, [])
 
   return null

@@ -4,6 +4,7 @@ import { supabaseConfig } from './config'
 
 // 인증 없이 접근 가능한 경로
 const PUBLIC_PATHS = [
+  '/',
   '/auth/password',
   '/auth/password/result',
   '/auth/join',
@@ -13,10 +14,8 @@ const PUBLIC_PATHS = [
 
 // 로그인된 유저가 접근하면 안되는 경로
 const GUEST_ONLY_PATHS = [
-  '/',
   '/auth/password',
   '/auth/join',
-  '/api/auth/callback'
 ]
 
 export async function updateSession(request: NextRequest) {
@@ -46,8 +45,8 @@ export async function updateSession(request: NextRequest) {
       },
     }
   )
-  // userChecked()로 변경 - 서버에서 토큰 검증
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { session } } = await supabase.auth.getSession()
+  const user = session?.user ?? null
 
   const currentPath = request.nextUrl.pathname
 
@@ -56,7 +55,6 @@ export async function updateSession(request: NextRequest) {
   const isGuestOnlyPath = GUEST_ONLY_PATHS.some((path) =>
     currentPath === path
   )
-
 
   // 비로그인 유저가 보호된 페이지 접근 시 메인으로
   if (!user && !isPublicPath) {
@@ -72,7 +70,6 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  
   // supabaseResponse객체를 그대로 반환해야함
   return supabaseResponse
 }

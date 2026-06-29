@@ -1,18 +1,18 @@
 import Tag from "@/src/app/_components/Tag";
-import { userChecked } from "@/src/app/_lib/userChecked";
 import PostDetail from "@/src/utils/PostDetail";
 import { createClient } from "@/src/utils/supabase/server";
+import { User } from "@supabase/supabase-js";
 
 interface QuestionProp {
   id: string
   page: string
+  user: User
 }
 
-export default async function Question({ id, page }: QuestionProp) {
+export default async function Question({ id, page, user }: QuestionProp) {
 
   // 데이터 호출
   // 유저가 존재하는지 확인
-  const user = await userChecked()
   const supabase = await createClient()
   const { data: userData, error: userError } = await supabase
     .from('users')
