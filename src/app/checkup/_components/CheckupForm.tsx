@@ -10,6 +10,7 @@ import CheckupActivity from "./CheckupActivity";
 import CheckupEtc from "./CheckupEtc";
 import CheckupCat from "./CheckupCat";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function CheckupForm() {
   const [step, setStep] = useState(0)  
@@ -28,8 +29,10 @@ export default function CheckupForm() {
 
   return (
     <FormProvider {...methods}>
+    <Link href={'/user'} className="inline-block cursor-pointer transition-all hover:border-neonPink hover:text-neonPink border-5 border-font-white py-2 px-4" aria-label="컨트롤 룸으로 돌아가기">◀ 컨트롤 룸 복귀 (BACK)</Link>
+
     { /* 현재 페이지 정보 */}
-      <form className="" onSubmit={methods.handleSubmit(onSubmit)}>
+      <form className="mbs-4" onSubmit={methods.handleSubmit(onSubmit)}>
         {/* 타이틀바 */}
         <div className="flex justify-between">
           <div>
