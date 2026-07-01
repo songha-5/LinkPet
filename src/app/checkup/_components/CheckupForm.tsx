@@ -12,11 +12,10 @@ import { useState } from "react";
 import Link from "next/link";
 import CheckupCat from "./CheckupCat";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckupSchema } from "../../_lib/checkup";
+import { CheckupFormData, CheckupSchema } from "../../_lib/checkup";
 
 export default function CheckupForm() {
   const [step, setStep] = useState<number>(0)  
-  const [switchData, setSwitchData] = useState<string[]>([])
 
   // 폼 데이터 관리
   const methods = useForm({
@@ -26,25 +25,36 @@ export default function CheckupForm() {
     }
   })
 
+  const petType = methods.watch("type")
+
+  // 각 페이지별 유효성 검사
+  const CHECKUP_VALIDATION = [
+    ['name', 'age', 'weight', 'type', 'gender', 'neuter'],
+    petType === 'cat' ? ['snack', 'outing'] : undefined,
+    [],
+    ['skin'],
+    ['mouth'],
+    ['activity'],
+    ['etc']
+  ].filter(Boolean)
+
+  const checkupMap = CHECKUP_VALIDATION[step] || []
+  const checkupWatch = methods.watch(checkupMap as (keyof CheckupFormData)[])
+  const isCurrentCheckup = checkupMap?.length === 0 || (checkupMap?.length > 0 && checkupWatch.every((value) => {
+    if (value == null) return false
+    if (value === "") return false
+    if (Array.isArray(value) && value.length === 0) return false
+    return true
+  }))
+
   // 데이터 전송
   const onSubmit = (data) => {
     console.log("최종 데이터", data)
   }
 
-  // 페이지 조건 추가
-  const stepAdd = (addData: string) => {
-   if(switchData.includes(addData)) {
-    const filteredArray = switchData.filter((items) => items !== addData)
-    setSwitchData(filteredArray)
-   } else {
-    const newArray = [...switchData, addData]
-    setSwitchData(newArray)
-   }
-  }
-
   let CHECKUP_COMPONENT = [
-    <CheckupBasicStatus stepAdd={stepAdd}/>,
-    switchData.includes('cat') ? <CheckupCat /> : false,
+    <CheckupBasicStatus />,
+    petType === 'cat' ? <CheckupCat /> : false,
     <CheckupAi />,
     <CheckupSkin />,
     <CheckupMouth />,
@@ -93,33 +103,33 @@ export default function CheckupForm() {
         <div className="border-5 border-font-white bg-bg mbs-1">
           <div className="transition-all bg-neonGreen h-4 m-1" style={{ width: `calc(${progress}% - 8px`}} aria-label={`${progress}% 진행`} ></div>
         </div>
-      </form>
 
-      {/* 질문 */}
-      <section className="transition-all border-6 bg-bg border-neonPink shadow-[6px_6px_0_var(--color-neonPink)] p-8.5 mbs-4">
+        {/* 질문 */}
+        <section className="transition-all border-6 bg-bg border-neonPink shadow-[6px_6px_0_var(--color-neonPink)] p-8.5 mbs-4">
+          {/* 검사 폼 컴포넌트 */}
+          {CHECKUP_COMPONENT[step]}
 
-        {/* 검사 폼 컴포넌트 */}
-        {CHECKUP_COMPONENT[step]}
-
-        {/* 이전/다음/완료 버튼 */}
-        <div className="flex gap-2 pbs-8 border-t-2 border-gray-default mbs-18 border-dashed">
-          {step !== 0 && (
+          {/* 이전/다음/완료 버튼 */}
+          <div className="flex gap-2 pbs-8 border-t-2 border-gray-default mbs-18 border-dashed">
+            {step !== 0 && (
+              <BaseButton
+                type="button"
+                content="◀ BACK (이전)"
+                color="white"
+                outline
+                onClick={() => handleStepCount("prev")}
+              />
+            )} 
             <BaseButton
-              type="button"
-              content="◀ BACK (이전)"
-              color="white"
-              outline
-              onClick={() => handleStepCount("prev")}
+              type={step !== componentsLenght ? "button" : "submit"}
+              content={step !== componentsLenght ? "NEXT (다음) ▶" : "COMPLEATE (제출) ■"}
+              color={step !== componentsLenght ? "pink" : "green"}
+              onClick={() => handleStepCount("next")}
+              disabled={isCurrentCheckup ? false : true}
             />
-          )} 
-          <BaseButton
-            type={step !== componentsLenght ? "button" : "submit"}
-            content={step !== componentsLenght ? "NEXT (다음) ▶" : "COMPLEATE (제출) ■"}
-            color={step !== componentsLenght ? "pink" : "green"}
-            onClick={() => handleStepCount("next")}
-          />
-        </div>
-      </section>
+          </div>
+        </section>
+      </form>
     </FormProvider>
   )
 }

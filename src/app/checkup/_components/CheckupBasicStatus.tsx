@@ -13,12 +13,8 @@ const AGE_OPTIONS = [
   { value: "7", label: "7 세 (7_YEAR_OLD)" }
 ]
 
-interface CheckupBasicStatusProps {
-  data: string[]
-  stepAdd: (step: string) => void
-}
 
-export default function CheckupBasicStatus({ stepAdd, data }: CheckupBasicStatusProps) {
+export default function CheckupBasicStatus() {
   const { register } = useFormContext()
   
   return (
@@ -55,9 +51,7 @@ export default function CheckupBasicStatus({ stepAdd, data }: CheckupBasicStatus
           <BaseRadio
             content="고양이"
             value="cat"
-            onClick={() => stepAdd('cat')}
             {...register("type")}
-            // checked={data.includes('cat')}
           />
           <BaseRadio
             content="강아지"

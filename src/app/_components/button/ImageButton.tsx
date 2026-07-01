@@ -1,13 +1,39 @@
 import Image from "next/image";
+import { useRef } from "react";
 
 interface ImageButtonProps {
   className?: string
+  onFileSelect?: (file: File) => void
 }
 
-export default function ImageButton({ className }: ImageButtonProps) {
+export default function ImageButton({ className, onFileSelect }: ImageButtonProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // input이 대신 실행
+  const handleClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  // 파일이 선택되었을때 실행
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if(file && onFileSelect) {
+      onFileSelect(file)
+    }
+
+    if (e.target) e.target.value = ""
+  }
+
   return (
     <div className={`text-center ${className}`}>
-      <button className="peer cursor-pointer border-4 border-dashed bg-bg relative w-50 h-50 border-neonPink">
+      <input
+        type="file"
+        accept="image/*"
+        className="hidden"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+      />
+      <button type="button" onClick={handleClick} className="peer cursor-pointer border-4 border-dashed bg-bg relative w-50 h-50 border-neonPink">
         <Image src="./bg_2.svg" fill alt="" className="object-cover" />
 
         <div className="absolute -right-1 -bottom-1 w-10 h-10 border-4 border-neonPink bg-neonPink">

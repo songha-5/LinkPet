@@ -1,7 +1,9 @@
-import BaseCheckbox from "../../_components/checkbox/BaseCheckbox";
+import { useFormContext } from "react-hook-form";
 import BaseRadio from "../../_components/radio/BaseRadio";
 
 export default function CheckupCat() {
+  const { register } = useFormContext()
+
   return (
     <div>
       <h2 className="text-center text-2xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">CHECK_LIST //<br />생활 습관 검진하기</h2>
@@ -12,18 +14,18 @@ export default function CheckupCat() {
         <div className="flex gap-2">
           <BaseRadio
             content="하루 2회 이상"
-            name="snack"
             value="snack_2"
+            { ...register('snack') }
           />
           <BaseRadio
             content="하루 1회"
-            name="snack"
             value="snack_1" 
+            { ...register('snack') }
           />
           <BaseRadio
             content="거의 안 먹음"
-            name="snack"
             value="snack_0" 
+            { ...register('snack') }
           />
         </div>
       </div>
@@ -34,13 +36,13 @@ export default function CheckupCat() {
         <div className="flex gap-2">
           <BaseRadio
             content="예"
-            name="outing" 
             value="outing_cat"
+            { ...register('outing') }
           />
           <BaseRadio
             content="아니요"
-            name="outing"
             value="house_cat" 
+            { ...register('outing') }
           />
         </div>
       </div>
