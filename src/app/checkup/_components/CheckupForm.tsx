@@ -11,6 +11,8 @@ import CheckupEtc from "./CheckupEtc";
 import { useState } from "react";
 import Link from "next/link";
 import CheckupCat from "./CheckupCat";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CheckupSchema } from "../../_lib/checkup";
 
 export default function CheckupForm() {
   const [step, setStep] = useState<number>(0)  
@@ -18,7 +20,10 @@ export default function CheckupForm() {
 
   // 폼 데이터 관리
   const methods = useForm({
-    
+    resolver: zodResolver(CheckupSchema),
+    defaultValues: {
+      age: ''
+    }
   })
 
   // 데이터 전송
@@ -38,7 +43,7 @@ export default function CheckupForm() {
   }
 
   let CHECKUP_COMPONENT = [
-    // <CheckupBasicStatus data={} stepAdd={stepAdd}/>,
+    <CheckupBasicStatus stepAdd={stepAdd}/>,
     switchData.includes('cat') ? <CheckupCat /> : false,
     <CheckupAi />,
     <CheckupSkin />,

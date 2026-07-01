@@ -1,3 +1,4 @@
+import { useFormContext } from "react-hook-form";
 import BaseCheckbox from "../../_components/checkbox/BaseCheckbox";
 
 export default function CheckupActivity() {
@@ -6,12 +7,14 @@ export default function CheckupActivity() {
     { "id": "check-activity-2", "label": "예전보다 활동량이 눈에 띄게 줄었어요", "option": "기력_저하"},
   ]
 
+  const { register } = useFormContext()
+
   return (
     <div>
       <h2 className="text-center text-2xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">CHECK_LIST //<br />관절 & 활동량 검진하기</h2>
 
       <div className="mbs-10">
-        <BaseCheckbox name="activity" value={CHECK_ACTIVITY} none noneContent="없음" />
+        <BaseCheckbox value={CHECK_ACTIVITY} none noneContent="없음" {...register('activity')} />
       </div>
     </div>
   )
