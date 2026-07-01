@@ -12,7 +12,12 @@ const AGE_OPTIONS = [
   { value: "7", label: "7 세 (7_YEAR_OLD)" }
 ]
 
-export default function CheckupBasicStatus() {
+interface CheckupBasicStatusProps {
+  data: string
+  stepAdd: (step: string) => void
+}
+
+export default function CheckupBasicStatus({ stepAdd, data }: CheckupBasicStatusProps) {
   return (
     <div className="">
       <h2 className="text-center text-2xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">CREATE_PET //<br />반려동물의 코어 데이터를 주입하세요!</h2>
@@ -36,6 +41,25 @@ export default function CheckupBasicStatus() {
         className="[&_strong]:text-[16px] mbs-4"
       />
       
+      <div className="mbs-4">
+        <strong className="block text-[16px] text-neonGreen mbe-1">PET_TYPE // 개체 종</strong>
+
+        <div className="flex gap-2">
+          <BaseRadio
+            content="고양이"
+            name="type" 
+            value="cat"
+            onClick={() => stepAdd('cat')}
+            checked={data.includes('cat')}
+          />
+          <BaseRadio
+            content="남자아이"
+            name="type"
+            value="dog" 
+          />
+        </div>
+      </div>
+
       <div className="mbs-4">
         <strong className="block text-[16px] text-neonGreen mbe-1">PET_GENDER // 개체 성별</strong>
 

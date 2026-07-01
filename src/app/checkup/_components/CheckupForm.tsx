@@ -8,22 +8,13 @@ import CheckupSkin from "./CheckupSkin";
 import CheckupMouth from "./CheckupMouth";
 import CheckupActivity from "./CheckupActivity";
 import CheckupEtc from "./CheckupEtc";
-import CheckupCat from "./CheckupCat";
 import { useState } from "react";
 import Link from "next/link";
-
-let CHECKUP_COMPONENT = [
-  <CheckupBasicStatus />,
-  <CheckupAi />,
-  <CheckupSkin />,
-  <CheckupMouth />,
-  <CheckupActivity />,
-  <CheckupEtc />,
-  // <CheckupCat />,
-]
+import CheckupCat from "./CheckupCat";
 
 export default function CheckupForm() {
   const [step, setStep] = useState<number>(0)  
+  const [switchData, setSwitchData] = useState<string[]>([])
 
   // 폼 데이터 관리
   const methods = useForm({
@@ -35,13 +26,29 @@ export default function CheckupForm() {
     console.log("최종 데이터", data)
   }
 
-  // 음..... useState에서 버튼을 누르면 + 1 되고,
-  // 마지막 lenght랑 값이 같으면 제출로 변경 (텍스트 / 기능)
-  // 프로그래스바도 변경되어야함
-  // 100분율넣어서 lenght로 계산 >> 퍼센트 수치화해서 문구로도 보여줘야함
-  // page step도 01~lenght로 표기
+  // 페이지 조건 추가
+  const stepAdd = (addData: string) => {
+   if(switchData.includes(addData)) {
+    const filteredArray = switchData.filter((items) => items !== addData)
+    setSwitchData(filteredArray)
+   } else {
+    const newArray = [...switchData, addData]
+    setSwitchData(newArray)
+   }
+  }
 
-  // 프로그래스바 계산
+  let CHECKUP_COMPONENT = [
+    // <CheckupBasicStatus data={} stepAdd={stepAdd}/>,
+    switchData.includes('cat') ? <CheckupCat /> : false,
+    <CheckupAi />,
+    <CheckupSkin />,
+    <CheckupMouth />,
+    <CheckupActivity />,
+    <CheckupEtc />,
+  ].filter(Boolean)
+
+  // 프로그래스바
+  const progress = Math.round((step / (CHECKUP_COMPONENT.length - 1)) * 100)
 
   // 다음/이전 페이지 버튼
   const componentsLenght = CHECKUP_COMPONENT.length - 1
@@ -66,12 +73,12 @@ export default function CheckupForm() {
         {/* 타이틀바 */}
         <div className="flex justify-between">
           <div>
-            <span className="text-2xl">PHASE_01</span> // PET_CORE_REGISTRATION
+            <span className="text-2xl">PHASE_{step + 1}</span> // PET_CORE_REGISTRATION
           </div>
 
           <div>
             <span className="text-2xl me-3">
-              75% 
+              {progress}% 
             </span>
             COMPLETED
           </div>
@@ -79,7 +86,7 @@ export default function CheckupForm() {
 
         {/* 프로그래스 바 */}
         <div className="border-5 border-font-white bg-bg mbs-1">
-          <div className="transition-all bg-neonGreen h-4 w-20 m-1"></div>
+          <div className="transition-all bg-neonGreen h-4 m-1" style={{ width: `calc(${progress}% - 8px`}} aria-label={`${progress}% 진행`} ></div>
         </div>
       </form>
 
