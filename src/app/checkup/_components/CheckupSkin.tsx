@@ -15,7 +15,7 @@ export default function CheckupSkin() {
       <h2 className="text-center text-2xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">CHECK_LIST //<br />귀 & 피부 검진하기</h2>
 
       <div className="mbs-10">
-        <BaseCheckbox name="skin" value={CHECK_SKIN} none noneContent="없음" {...register('skin') }/>
+        <BaseCheckbox  value={CHECK_SKIN} none noneContent="없음" {...register('skin') }/>
       </div>
     </div>
   )
