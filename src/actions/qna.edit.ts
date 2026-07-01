@@ -1,14 +1,14 @@
 "use server"
 
-import { QnACreateFormData, QnACreateSchema } from "../app/_lib/qna";
+import { QnAEditFormData, QnAEditSchema } from "../app/_lib/qna";
 import { getErrorMessage } from "../utils/errorMapper";
 import { createClient } from "../utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { getUser } from "../app/_lib/getUser";
 
-export async function qnaCreateAction(data:QnACreateFormData) {
+export async function qnaEditAction(data:QnAEditFormData) {
   // 유효성 검사
-  const parsed = QnACreateSchema.safeParse(data)
+  const parsed = QnAEditSchema.safeParse(data)
 
   if (!parsed.success) {
     console.log("유효성 검사를 실패했습니다.")
@@ -20,21 +20,20 @@ export async function qnaCreateAction(data:QnACreateFormData) {
   const user = await getUser()
 
   const { title, content } = parsed.data
-  // 글 등록
-  const { data: postsData, error } = await supabase.from('posts').insert({
+
+  // 글 수정
+  const { error: idError } = await supabase.from('posts').update({
     title,
     body: content,
-    is_answered: false,
-    user_id: user.id
   })
-    .select()
-    .single()
-
-  if (error) {
-    const translatedmessage = getErrorMessage(error)
-    return { success: false, message: translatedmessage }
+    .eq('user_id', user.id)
+    .eq('id', data.id)
+  
+  if (idError) {
+    const translatedmessage = getErrorMessage(idError)
+    return { success: false, message: translatedmessage}
   }
-  revalidatePath(`${user.id}/${postsData.id}`)
+  revalidatePath(`${user.id}/${data.id}`)
 
   return { success: true }
 }
