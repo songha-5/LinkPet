@@ -2,17 +2,7 @@ import { useFormContext } from "react-hook-form";
 import BaseInput from "../../_components/input/BaseInput";
 import BaseRadio from "../../_components/radio/BaseRadio";
 import BaseSelect from "../../_components/select/BaseSelect";
-
-const AGE_OPTIONS = [
-  { value: "1", label: "1 세 (1_YEAR_OLD)" },
-  { value: "2", label: "2 세 (2_YEAR_OLD)" },
-  { value: "3", label: "3 세 (3_YEAR_OLD)" },
-  { value: "4", label: "4 세 (4_YEAR_OLD)" },
-  { value: "5", label: "5 세 (5_YEAR_OLD)" },
-  { value: "6", label: "6 세 (6_YEAR_OLD)" },
-  { value: "7", label: "7 세 (7_YEAR_OLD)" }
-]
-
+import { AGE_OPTIONS } from "../type/checkupType";
 
 export default function CheckupBasicStatus() {
   const { register } = useFormContext()

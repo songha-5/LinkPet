@@ -1,12 +1,8 @@
 import { useFormContext } from "react-hook-form";
 import BaseCheckbox from "../../_components/checkbox/BaseCheckbox";
+import { CHECK_ETC } from "../type/checkupType";
 
 export default function CheckupEtc() {
-  const CHECK_ETC = [
-    { "id": "check-etc-1", "label": "기침을 자주 하거나 숨쉬기 힘들어해요", "option": "호흡기_이상"},
-    { "id": "check-etc-2", "label": "눈곱이 심하게 끼거나 눈이 충혈됐어요", "option": "안구_질환"},
-  ]
-
   const { register } = useFormContext()
 
   return (

@@ -13,10 +13,10 @@ const checkupGenderSchema = z.enum(['girl', 'boy'], {
 const checkupNeuterSchema = z.enum(['yes', 'no'], {
   error: "중성화 여부를 선택해주세요."
 })
-const checkupSnackSchema = z.enum(['snack_2', 'snack_1', 'snack_0'], {
+const checkupSnackSchema = z.enum(['간식_적당', '간식_평균', '간식_자제'], {
   error: "스넥 횟수를 선택해주세요."
 }).optional()
-const checkupOutingSchema = z.enum(['outing_cat', 'house_cat'], {
+const checkupOutingSchema = z.enum(['외부감염_주의', '외부감염_걱정없음'], {
   error: "산책 여부를 선택해주세요."
 }).optional()
 const checkupMultiSchema = z.array(z.string())
