@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       ai_analysis: {
         "aiResult": body.aiResult ? { result: body.aiResult } : null,
       },
-      point: 82
+      point: body.point
     })
 
     if(petStatusError) throw new Error(`Status 저장 실패: ${petStatusError.message}`)

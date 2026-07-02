@@ -14,6 +14,7 @@ import CheckupCat from "./CheckupCat";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckupFormData, CheckupSchema } from "../../_lib/checkup";
 import { useRouter } from "next/navigation";
+import { ALL_CHECKUP_ITEMS } from "../type/checkupType";
 
 export default function CheckupForm() {
   const route = useRouter()
@@ -52,17 +53,37 @@ export default function CheckupForm() {
   // 데이터 전송
   const onSubmit = async (data: CheckupFormData) => {
     try {
+      // 점수 
+      let totalScore = 100
+      // 항목들 순회사며 점수 계산
+      ALL_CHECKUP_ITEMS.forEach((items) => {
+        const selectedValue = data[items.category as keyof CheckupFormData]
+        
+        if (Array.isArray(selectedValue)) {
+          // 배열일 경우 - checkbox
+          if (selectedValue.includes(items.option)) totalScore += items.score
+        } else {
+          // 문자열("")일경우 - radio
+          if (selectedValue === items.option) totalScore += items.score
+        }
+      })
+
+      const totalData = {
+        ...data,
+        point: totalScore
+      }
+
       const response = await fetch('/api/checkup', {
         method: "POST",
         headers: {
           "Content-type": "application/json; charset=utf-8"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(totalData)
       })
 
       if(!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData || "서버 에러가 발생하였습니다.")
+        throw new Error(errorData.error || "서버 에러가 발생하였습니다.")
       }
 
       const result = await response.json()
@@ -71,10 +92,6 @@ export default function CheckupForm() {
       console.log("데이터 전송 실패", error)
       // 404??
     }
-  }
-
-  const onError = (error: any) => {
-    console.log("zod검사실패?", error)
   }
 
   let CHECKUP_COMPONENT = [
@@ -109,7 +126,7 @@ export default function CheckupForm() {
       <Link href={'/user'} className="inline-block cursor-pointer transition-all hover:border-neonPink hover:text-neonPink border-5 border-font-white py-2 px-4" aria-label="컨트롤 룸으로 돌아가기">◀ 컨트롤 룸 복귀 (BACK)</Link>
 
       { /* 현재 페이지 정보 */}
-      <form className="mbs-4" onSubmit={methods.handleSubmit(onSubmit, onError)}>
+      <form className="mbs-4" onSubmit={methods.handleSubmit(onSubmit)}>
         {/* 타이틀바 */}
         <div className="flex justify-between">
           <div>
