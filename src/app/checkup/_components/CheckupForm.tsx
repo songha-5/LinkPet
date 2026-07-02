@@ -13,8 +13,10 @@ import Link from "next/link";
 import CheckupCat from "./CheckupCat";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckupFormData, CheckupSchema } from "../../_lib/checkup";
+import { useRouter } from "next/navigation";
 
 export default function CheckupForm() {
+  const route = useRouter()
   const [step, setStep] = useState<number>(0)  
 
   // 폼 데이터 관리
@@ -48,8 +50,31 @@ export default function CheckupForm() {
   }))
 
   // 데이터 전송
-  const onSubmit = (data) => {
-    console.log("최종 데이터", data)
+  const onSubmit = async (data: CheckupFormData) => {
+    try {
+      const response = await fetch('/api/checkup', {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      })
+
+      if(!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData || "서버 에러가 발생하였습니다.")
+      }
+
+      const result = await response.json()
+      route.push('/user')
+    } catch(error) {
+      console.log("데이터 전송 실패", error)
+      // 404??
+    }
+  }
+
+  const onError = (error: any) => {
+    console.log("zod검사실패?", error)
   }
 
   let CHECKUP_COMPONENT = [
@@ -84,7 +109,7 @@ export default function CheckupForm() {
       <Link href={'/user'} className="inline-block cursor-pointer transition-all hover:border-neonPink hover:text-neonPink border-5 border-font-white py-2 px-4" aria-label="컨트롤 룸으로 돌아가기">◀ 컨트롤 룸 복귀 (BACK)</Link>
 
       { /* 현재 페이지 정보 */}
-      <form className="mbs-4" onSubmit={methods.handleSubmit(onSubmit)}>
+      <form className="mbs-4" onSubmit={methods.handleSubmit(onSubmit, onError)}>
         {/* 타이틀바 */}
         <div className="flex justify-between">
           <div>

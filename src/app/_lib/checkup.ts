@@ -19,10 +19,8 @@ const checkupSnackSchema = z.enum(['snack_2', 'snack_1', 'snack_0'], {
 const checkupOutingSchema = z.enum(['outing_cat', 'house_cat'], {
   error: "산책 여부를 선택해주세요."
 }).optional()
-const checkupMultiSchema = z.object({
-  petTraits: z.array(z.string())
+const checkupMultiSchema = z.array(z.string())
     .min(1, { message: "1개 이상의 타입을 선택해주세요."})
-})
 
 // 게시글 등록 유효성 검사
 export const CheckupSchema = z.object({
