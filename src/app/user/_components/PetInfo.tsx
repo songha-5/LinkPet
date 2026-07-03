@@ -72,7 +72,7 @@ export default async function PetInfo() {
         <h2 className="text-2xl">🐾 PET_CORE_DATA // 개체 프로필</h2>
         <strong className="block mbs-2 text-4xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">{petSelect.name} (CODE_V1.0)</strong>
         <p className="text-[16px] text-font-subText">종족: {petGender} // 나이 프로토콜: {petSelect.age}YEARS_OLD</p>
-        <p className="text-[16px] text-font-subText">몸무게: {Math.ceil(petSelect.weight * 100) / 100}</p>
+        <p className="text-[16px] text-font-subText">몸무게: {Math.ceil(petSelect.weight * 100) / 100}kg</p>
 
         <div className="flex gap-3 flex-wrap mbs-4">
           {Object.entries(statusData.symptoms || {}).map(([key, value]) => {
