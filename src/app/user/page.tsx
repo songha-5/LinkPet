@@ -1,7 +1,5 @@
 import Footer from "../_components/footer/Footer";
 import Header from "../_components/header/Header";
-import StateNoti from "../_components/StateNoti";
-import Tag from "../_components/Tag";
 import QnACard from "../_components/QnACard";
 import UserModal from "./_components/UserModal";
 import UserStateModal from "./_components/UserStateModal";
@@ -9,6 +7,7 @@ import Avata from "./_components/ProfileImage";
 import { createClient } from "@/src/utils/supabase/server";
 import Link from "next/link";
 import { getUser } from "../_lib/getUser";
+import PetInfo from "./_components/PetInfo";
 
 export default async function UserPage() {
 
@@ -58,30 +57,7 @@ export default async function UserPage() {
         <section className="transition-all border-7 bg-bg border-neonPink shadow-[10px_10px_0_var(--color-neonPink)] p-8.5 lg:flex lg:flex-row">
 
           {/* 반려동물 이름/종/나이/아픈정도 */}
-          <div className="text-neonPink">
-            <h2 className="text-2xl">🐾 PET_CORE_DATA // 개체 프로필</h2>
-            <strong className="block mbs-2 text-4xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">초코 (CODE_V1.0)</strong>
-            <p className="text-[16px] text-font-subText">종족: 말티즈 // 나이 프로토콜: YEARS_OLD</p>
-
-            <div className="flex gap-3 flex-wrap mbs-4">
-              <Tag content="내용이들어가요" tag />
-              <Tag content="내용이들어가요" color="yellow" tag />
-              <Tag content="내용이들어가요" color="green" tag />
-              <Tag content="내용이_들어가요_들어가요_들어가요" color="white" tag />
-              <Tag content="내용이들어가요" tag />
-              <Tag content="내용이들어가요" tag />
-            </div>
-          </div>
-
-          <div className="mbs-10 border-3 border-dashed border-font-caption p-5 bg-bg-gray lg:mt-0 lg:ms-4">
-            <strong className="text-font-subText">MATRIX_HEALTH_ALERT // 진단 상태 알림</strong>
-
-            <div className="flex flex-col gap-3 mbs-5">
-              <StateNoti title="양호 // SAFE" content="개체 생체 데이터 스트림이 안정 상태입니다. 마이펫 방어막 정상 가동 중." />
-              <StateNoti title="경고 // WARN" content="일부 연산 노드에 이상 마찰 징후 검출! 지속적인 증상 트래킹 및 정밀 관찰이 요구됩니다." />
-              <StateNoti title="위험 // HG_RISK" content="바이탈 패킷 임계치 초과 발생! 즉시 전문의 오프라인 원격 매칭 또는 병원 이송 통신을 개시하십시오." color="pink"/>
-            </div>
-          </div>
+          <PetInfo />
         </section>
 
         {/* 유저정보 및 QnA */}
