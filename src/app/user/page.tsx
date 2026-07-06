@@ -18,9 +18,11 @@ export default async function UserPage() {
   // 프로필사진 데이터 호출
   const { data: userData } = await supabase
     .from('users')
-    .select('profile_image, role')
+    .select('profile_image, role, pet(id)')
     .eq('id', user.id)
     .single()
+
+  const hasPet = userData?.pet && userData.pet.length > 0
   
   const profileImage = userData?.profile_image || '/bg_2.svg'
   const isAdmin = userData?.role === "ADMIN"
@@ -56,8 +58,16 @@ export default async function UserPage() {
         {/* 반려동물 정보 */}
         <section className="transition-all border-7 bg-bg border-neonPink shadow-[10px_10px_0_var(--color-neonPink)] p-8.5 lg:flex lg:flex-row">
 
-          {/* 반려동물 이름/종/나이/아픈정도 */}
-          <PetInfo />
+          {/* 반려동물 이름/종/나이/아픈정도/검사페이지 이동 */}
+          {hasPet ? ( 
+              <PetInfo />
+            ) : (
+              <div>
+                <h2 className="text-2xl text-neonPink">🐾 PET_CORE_DATA // 나의 펫 검사하기</h2>
+                <Link href={'/checkup'} className="cursor-pointer hover:bg-bg-gray-800 transition-all block text-center p-20 border-4 border-gray-default border-dashed mbs-2 text-4xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">펫_검사하기</Link>
+              </div>
+            )
+          }
         </section>
 
         {/* 유저정보 및 QnA */}
