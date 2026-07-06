@@ -19,6 +19,7 @@ import { ALL_CHECKUP_ITEMS } from "../type/checkupType";
 export default function CheckupForm() {
   const route = useRouter()
   const [step, setStep] = useState<number>(0)  
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
 
   // 폼 데이터 관리
   const methods = useForm({
@@ -28,6 +29,10 @@ export default function CheckupForm() {
     }
   })
 
+  // error메세지 출력을 위한 methods
+  const { watch, formState: { errors }} = methods
+  
+  // 조건을 걸기위한 watch (aiResult: 버튼 disabled, petType: 고양이/강아지 타입별 문답)
   const petType = methods.watch("type")
 
   // 각 페이지별 유효성 검사
@@ -97,7 +102,7 @@ export default function CheckupForm() {
   let CHECKUP_COMPONENT = [
     <CheckupBasicStatus />,
     petType === 'cat' ? <CheckupCat /> : false,
-    <CheckupAi />,
+    <CheckupAi onAnalyzing={setIsAnalyzing}/>,
     <CheckupSkin />,
     <CheckupMouth />,
     <CheckupActivity />,
@@ -167,7 +172,7 @@ export default function CheckupForm() {
               content={step !== componentsLenght ? "NEXT (다음) ▶" : "COMPLEATE (제출) ■"}
               color={step !== componentsLenght ? "pink" : "green"}
               onClick={() => handleStepCount("next")}
-              disabled={isCurrentCheckup ? false : true}
+              disabled={!isCurrentCheckup || isAnalyzing}
             />
           </div>
         </section>
