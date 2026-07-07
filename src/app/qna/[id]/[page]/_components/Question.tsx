@@ -1,15 +1,34 @@
 import Tag from "@/src/app/_components/Tag";
+import { ALL_CHECKUP_ITEMS } from "@/src/app/checkup/type/checkupType";
 import PostDetail from "@/src/utils/PostDetail";
 import { createClient } from "@/src/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
+import { Fragment } from "react";
+
+interface petDataProps {
+  id: string
+  name: string
+  age: string
+  gender: string
+  weight: number
+  type: string
+}
+
+interface statusDataProps {
+  symptoms: Record<string, string | string[]>
+  ai_analysis: string
+  point: number
+}
 
 interface QuestionProp {
   id: string
   page: string
   user: User
+  petData: petDataProps
+  statusData: statusDataProps
 }
 
-export default async function Question({ id, page, user }: QuestionProp) {
+export default async function Question({ id, page, user, petData, statusData }: QuestionProp) {
 
   // 데이터 호출
   // 유저가 존재하는지 확인
@@ -38,6 +57,8 @@ export default async function Question({ id, page, user }: QuestionProp) {
   const month = (createDay.getMonth() + 1).toString().padStart(2, '0')
   const day = createDay.getDate().toString().padStart(2, '0')
 
+  const petType = petData.type === "dog" ? "강아지" : "고양이"
+
   return (
     <section className="border-5 border-font-white p-7 bg-bg my-5">
       <div>
@@ -54,14 +75,26 @@ export default async function Question({ id, page, user }: QuestionProp) {
         {/* 반려동물 정보 카드 */}
         <div className="border-3 border-neonPink py-4 px-6 mbe-4">
           <strong className="text-neonPink text-sm">[🐾] TARGET_PET_MANIFEST</strong>
-          <p className="text-lg">대상 개체: <span className="text-neonYellow">초코</span> (말티즈 / 3세 / 4.2kg)</p>
+          <p className="text-lg">대상 개체: <span className="text-neonYellow">{petData.name}</span> ({petType} / {petData.age}세 / {petData.weight}kg)</p>
 
           <div className="flex flex-row flex-wrap gap-2 mbs-2">
-            <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
-            <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
-            <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
-            <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
-            <Tag content="내용이들어가요" tag className="py-1! border-2! text-[12px]!" color="green"/>
+            {Object.entries(statusData.symptoms || {}).map(([key, value]) => {
+              // 배열 + 원시타입을 배열화
+              const safeValues = Array.isArray(value) ? value : [value]
+              return (
+                <Fragment key={key}>
+                  {safeValues.filter((items) => items !== "on").map((item, index) => {
+                    // -10점만 경고 컬러로 변경
+                    const foundItem = ALL_CHECKUP_ITEMS.find((check) => check.option === item)
+                    const isDanger = foundItem?.score === -10
+
+                    return (
+                      <Tag key={index} content={item} tag className="py-1! border-2! text-[12px]!" color={isDanger ? "pink" : "yellow"}/>
+                    )
+                  })}
+                </Fragment>
+              )
+            })}
           </div>
         </div>
 

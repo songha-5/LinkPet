@@ -1,16 +1,23 @@
 "use client"
 
 import { qnaCreateAction } from "@/src/actions/qna.create";
+import { qnaEditAction } from "@/src/actions/qna.edit";
 import BaseInput from "@/src/app/_components/input/BaseInput";
 import { TiptapInput } from "@/src/app/_components/input/TiptabInput";
 import SimpleModal from "@/src/app/_components/modal/SimpleModal";
-import { QnACreateFormData, QnACreateSchema } from "@/src/app/_lib/qna";
+import { QnACreateFormData, QnACreateSchema, QnAEditFormData, QnAEditSchema } from "@/src/app/_lib/qna";
 import { useModalStore } from "@/src/store/useModalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { boolean } from "zod";
+
+interface submitResult {
+  success: boolean
+  message?: string
+}
 
 interface EditFormProps {
   id?: string
@@ -21,6 +28,7 @@ interface EditFormProps {
 export default function EditForm({ id, title, body }: EditFormProps) {
   const router = useRouter()
   const openModal = useModalStore((state) => state.openModal)
+  const isEditMode = Boolean(id) && id !== "undefiend" && !isNaN(Number(id))
 
   const {
     register,
@@ -29,7 +37,7 @@ export default function EditForm({ id, title, body }: EditFormProps) {
     setError,
     formState: { errors, isSubmitting }
   } = useForm({
-    resolver: zodResolver(QnACreateSchema),
+    resolver: zodResolver(isEditMode ? QnAEditSchema : QnACreateSchema),
     mode: "onChange",
     defaultValues: {
       title: title ? title : "",
@@ -37,10 +45,8 @@ export default function EditForm({ id, title, body }: EditFormProps) {
     }
   })
 
-  const onSubmit = async (data: QnACreateFormData) => {
-    const dataMix = { ...data, id: Number(id) }
-    const result = await qnaCreateAction(dataMix)
-
+  // 유효성 검사 완료 후 실행될 코드 (모달 및 에러)
+  const handleActionSubmit = (result: submitResult) => {
     try {
       if (result.success) {
         openModal(
@@ -60,11 +66,27 @@ export default function EditForm({ id, title, body }: EditFormProps) {
     }
   }
 
+  // 글 생성 submit
+  const onCreateSubmit = async (data: QnACreateFormData) => {
+    const dataMix = { ...data, id: Number(id) }
+    const result = await qnaCreateAction(dataMix)
+    handleActionSubmit(result)
+  }
+
+  // 글 삭제 submit
+  const onEditSubmit = async (data: QnAEditFormData) => {
+    const dataMix = { ...data }
+    const result = await qnaEditAction(dataMix)
+    handleActionSubmit(result)
+  }
+
+  const targetSubmit = isEditMode ? onEditSubmit : onCreateSubmit
+
   return (
     <fieldset>
       <legend className="sr-only">질문글 등록 폼</legend>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(targetSubmit)}>
         <BaseInput
           title="QUEST_TITLE // 질문 제목"
           placeholder="질문 제목을 입력해주세요."

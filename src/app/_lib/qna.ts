@@ -7,10 +7,16 @@ const questIDSchema = z.number().optional()
 
 // 게시글 등록 유효성 검사
 export const QnACreateSchema = z.object({
+  title: questTitleSchema,
+  content: questContentSchema
+})
+// 게시글 수정 유효성 검사
+export const QnAEditSchema = z.object({
   id: questIDSchema,
   title: questTitleSchema,
   content: questContentSchema
 })
+
 // 게시글 내용 유효성 검사
 export const TextareaSchema = z.object({
   content: questContentSchema
@@ -21,5 +27,6 @@ export const QnACreateAdminSchema = z.object({
 })
 
 export type QnACreateFormData = z.infer<typeof QnACreateSchema>
+export type QnAEditFormData = z.infer<typeof QnAEditSchema>
 export type TextareaFormData = z.infer<typeof TextareaSchema>
 export type QnACreateAdminFormData = z.infer<typeof QnACreateAdminSchema>

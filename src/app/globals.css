@@ -34,6 +34,7 @@
   --color-bg-gray: #0d0d0d;
   --color-bg-gray-100: #222;
   --color-bg-gray-200: #151515;
+  --color-bg-gray-800: #1e1d1d;
   --bg-image-dot: radial-gradient(var(--color-bg-gray-100) 1px, transparent 1px);
 
   --animate-float: float 3s ease-in-out infinite;
