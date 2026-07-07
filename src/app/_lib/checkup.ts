@@ -1,8 +1,10 @@
 import z from "zod"
 
+const ACCEOTED_IMAGE_TYPE = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
+
 const checkupNameSchema = z.string().min(1, '한글자 이상 입력해주세요.')
 const checkupAgeSchema = z.string().min(1, '반려동물의 나이를 선택해주세요.')
-const checkupAiSchema = z.string().optional()
+const checkupAiSchema = z.array(z.string()).optional()
 const checkupWeightSchema = z.string().min(1, '반려동물의 체중을 입력해주세요.')
 const checkupTypeSchema = z.enum(['cat', 'dog'], {
   error: "고양이와 강아지중 하나를 선택해주세요."
@@ -21,6 +23,7 @@ const checkupOutingSchema = z.enum(['외부감염_주의', '외부감염_걱정�
 }).optional()
 const checkupMultiSchema = z.array(z.string())
     .min(1, { message: "1개 이상의 타입을 선택해주세요."})
+const checkupFileSchema = z.string().optional().or(z.any())
 
 // 게시글 등록 유효성 검사
 export const CheckupSchema = z.object({
@@ -31,6 +34,7 @@ export const CheckupSchema = z.object({
   gender: checkupGenderSchema,
   neuter: checkupNeuterSchema,
   aiResult: checkupAiSchema,
+  previewUrl: checkupFileSchema,
   snack: checkupSnackSchema,
   outing: checkupOutingSchema,
   skin: checkupMultiSchema,

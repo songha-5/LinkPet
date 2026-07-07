@@ -32,9 +32,9 @@ export default function CheckupAi({ onAnalyzing }: CheckupAiProps) {
       }
 
       const result = await response.json()
-
+      
       // 부모의 RHF에게 최종 데이터 전달
-      setValue("aiResult", result.message, { shouldValidate: true })
+      setValue("aiResult", result.aiResult, { shouldValidate: true })
     } catch (error: unknown) {
       console.error('AI 검사 실패')
 
@@ -70,12 +70,12 @@ export default function CheckupAi({ onAnalyzing }: CheckupAiProps) {
         ) : errors.aiResult ? (
           // 에러가 발생 
           <p className="text-red-500">
-            [분석 실패] <strong>{errors.aiResult.message?.toString()}</strong>
+            [분석 실패] <strong>서버에서 데이터를 처리하는 중 문제가 발생했습니다.</strong>
           </p>
         ) : aiResult ? (
           // 성공
           <p className="text-neonGreen">
-            [분석 완료] AI 소견: <strong>{aiResult}</strong>
+            [분석 완료] AI 소견: <strong>파일 추출 성공</strong>
           </p>
         ) : null}
       </div>

@@ -31,9 +31,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // 구글이 읽을 수 있는 형태로 사진 변환
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+
+    // ai 에게 전송 및 결과리스트 받기
+    const [result] = await visionClient.labelDetection({ image: { content: buffer }})
+
+    // 라벨만 추출
+    const labels = result.labelAnnotations || []
+
+    // 사용하는 단어만 추출 -> 비교를 위해 소문자로 전환
+    const extractedTags = labels.map(label => label.description?.toLocaleLowerCase() || "")
+
+    //파일이름이름 - 태그이름이름
+    console.log("=============== ai 뱉는 리스트", extractedTags)
     console.log("전달받든 파일이름/타입", file.name, file.type)
 
-    return NextResponse.json({ message: "파일 추출 성공"})
+
+    return NextResponse.json({
+      message: "파일 추출 성공",
+      aiResult: extractedTags
+    })
   } catch(error) {
     console.error('데이터 추출 중 에러: ', error)
     return NextResponse.json(
