@@ -18,7 +18,7 @@ export default async function UserPage() {
   // 프로필사진 데이터 호출
   const { data: userData } = await supabase
     .from('users')
-    .select('profile_image, role, pet(id)')
+    .select('profile_image, username, role, pet(id)')
     .eq('id', user.id)
     .single()
 
@@ -80,7 +80,7 @@ export default async function UserPage() {
               {/* 이미지 업로드 */}
               <Avata image={profileImage} />
 
-              <strong className="text-lg text-neonGreen mbs-3">NAME: CYBER_PET7</strong>
+              <strong className="text-lg text-neonGreen mbs-3">NAME: {userData?.username}</strong>
             </div>
 
             {/* 아이디변경 / 비밀번호 변경 버튼 */}
