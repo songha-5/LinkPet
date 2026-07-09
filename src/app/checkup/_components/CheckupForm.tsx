@@ -55,10 +55,6 @@ export default function CheckupForm() {
     return true
   }))
 
-  const onError = (errors: any) => {
-    console.log("폼 제출 실패", errors)
-  }
-
   // 데이터 전송
   const onSubmit = async (data: CheckupFormData) => {
     try {
@@ -131,7 +127,7 @@ export default function CheckupForm() {
       route.push('/user')
     } catch(error) {
       console.log("데이터 전송 실패", error)
-      // 404??
+      throw new Error("데이터 전송을 실패하였습니다.")
     }
   }
 
@@ -167,7 +163,7 @@ export default function CheckupForm() {
       <Link href={'/user'} className="inline-block cursor-pointer transition-all hover:border-neonPink hover:text-neonPink border-5 border-font-white py-2 px-4" aria-label="컨트롤 룸으로 돌아가기">◀ 컨트롤 룸 복귀 (BACK)</Link>
 
       { /* 현재 페이지 정보 */}
-      <form className="mbs-4" onSubmit={methods.handleSubmit(onSubmit, onError)}>
+      <form className="mbs-4" onSubmit={methods.handleSubmit(onSubmit)}>
         {/* 타이틀바 */}
         <div className="flex justify-between">
           <div>

@@ -8,6 +8,7 @@ import { createClient } from "@/src/utils/supabase/server";
 import Link from "next/link";
 import { getUser } from "../_lib/getUser";
 import PetInfo from "./_components/PetInfo";
+import ErrorBoundaryWaper from "../_components/error/ErrorBoundaryWapper";
 
 export default async function UserPage() {
 
@@ -31,6 +32,8 @@ export default async function UserPage() {
   const { data: qnaData, error: qnaError } = isAdmin ? 
    await supabase.from('posts').select('id, title, is_answered, created_at, user_id') :
    await supabase.from('posts').select('id, title, is_answered, created_at, user_id').eq('user_id', user.id)
+  
+  // 에러케이스
   if (qnaError) {
     console.log('QnA리스트를 불러오는 중 에러가 발생했습니다.')
     throw new Error("QnA리스트를 불러오는중 에러가 발생하였습니다.")
@@ -60,7 +63,9 @@ export default async function UserPage() {
 
           {/* 반려동물 이름/종/나이/아픈정도/검사페이지 이동 */}
           {hasPet ? ( 
-              <PetInfo />
+              <ErrorBoundaryWaper>
+                <PetInfo />
+              </ErrorBoundaryWaper>
             ) : (
               <div>
                 <h2 className="text-2xl text-neonPink">🐾 PET_CORE_DATA // 나의 펫 검사하기</h2>
@@ -93,11 +98,13 @@ export default async function UserPage() {
           <div className="border-4 border-font-white mt-4 p-9 bg-bg lg:mt-0 lg:flex-1">
             <h2 className="text-2xl text-neonGreen">💾 MEDICAL_Q&A_STREAMS // 상담 내역 리스트</h2>
 
-            <div className={`flex flex-col gap-4 mbs-6 lg:overflow-y-scroll ${userData?.role === "ADMIN" ? 'lg:max-h-110 lg:min-h-110': 'lg:max-h-94 lg:min-h-94'}`}>
-              {qnaSort.map((item) => (
-                <QnACard key={item.id} id={item.id} user_id={item.user_id} title={item.title} tags={['태그1', '태그2']} update={item.created_at} isAnwers={item.is_answered} />
-              ))}
-            </div>
+            <ErrorBoundaryWaper>
+              <div className={`flex flex-col gap-4 mbs-6 lg:overflow-y-scroll ${userData?.role === "ADMIN" ? 'lg:max-h-110 lg:min-h-110': 'lg:max-h-94 lg:min-h-94'}`}>
+                {qnaSort.map((item) => (
+                  <QnACard key={item.id} id={item.id} user_id={item.user_id} title={item.title} tags={['태그1', '태그2']} update={item.created_at} isAnwers={item.is_answered} />
+                ))}
+              </div>
+            </ErrorBoundaryWaper>
             
             {/* 질문 등록은 USER만 볼 수 있음 */}
             {userData?.role === "USER" && (

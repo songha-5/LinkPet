@@ -40,15 +40,13 @@ export default async function Question({ id, page, user, petData, statusData }: 
     .single()
   if (userData === null) {
     console.log('유저 정보를 불러오지 못했습니다.', userError.message)
-    // 404페이지
-    return
+    throw new Error("유저 정보를 불러오지 못했습니다.")
   }
   
   const { data, error } = await supabase.from('posts').select('title, body, created_at').eq('user_id', id).eq('id', page).single()
   if (error || data === null) {
     console.log('유저 QnA글을 불러오지 못했습니다.', error.message)
-    // 404페이지
-    return
+    throw new Error("유버 QnA글을 불러오지 못했습니다.")
   }
 
   // 날짜 변경

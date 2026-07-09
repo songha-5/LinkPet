@@ -10,6 +10,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import PostDetail from "@/src/utils/PostDetail"
+import ErrorBoundaryWaper from "@/src/app/_components/error/ErrorBoundaryWapper"
 
 interface AdminAnswerUserProps {
   id?: string
@@ -59,8 +60,7 @@ export default function AdminAnswer({ role, username }: AdminAnswerProps) {
     
       } catch (error) {
         console.log("데이터를 불러오지 못했습니다.")
-        // 404페이지
-        return 
+        throw new Error("데이터를 불러오지 못했습니다.")  
       }
     }
     fatchData()
@@ -143,11 +143,16 @@ export default function AdminAnswer({ role, username }: AdminAnswerProps) {
       setEdit(false)
     } catch (error) {
       console.log("예기치 못한 오류가 발생했습니다.", error)
+      throw new Error("예기치 못한 오류가 발생했습니다.")
     }
   }
 
   if (!postData) {
-    return <>404에러 데이터가 없습니다 화면</>
+    return (
+      <div className="mbs-4 border-3 border-dashed border-gray-default p-20 text-center">
+        <p className="text-lg text-gray-default">로딩중입니다...</p>
+      </div>
+    )
   }
 
   return (
@@ -185,7 +190,9 @@ export default function AdminAnswer({ role, username }: AdminAnswerProps) {
               <TiptapInput control={control} name="content" />
             </div>
           ) : (
-            <PostDetail data={postData.admin_body || ''} />
+            <ErrorBoundaryWaper>
+              <PostDetail data={postData.admin_body || ''} />
+            </ErrorBoundaryWaper>
           )}
 
           {role === 'ADMIN' && (

@@ -4,6 +4,8 @@ import AdminAnswer from "./_components/AdminAnswer";
 import { createClient } from "@/src/utils/supabase/server";
 import QnAButton from "./_components/QnAButton";
 import { getUser } from "@/src/app/_lib/getUser";
+import { notFound } from "next/navigation";
+import ErrorBoundaryWaper from "@/src/app/_components/error/ErrorBoundaryWapper";
 
 interface QnAPageProps {
   params: Promise<{ id: string;  page: string}>
@@ -23,8 +25,7 @@ export default async function QnAPage({ params }: QnAPageProps) {
     .single()
   if (postError) {
     console.log("데이터를 불러오지 못했습니다.")
-    // 404 및 다른 UI페이지
-    return
+    notFound()
   }
 
   const user = await getUser()
@@ -36,7 +37,7 @@ export default async function QnAPage({ params }: QnAPageProps) {
 
   if (!roleData) {
     console.log("유저 정보를 불러오지 못했습니다.")
-    return  
+    notFound()
   }
 
   // 펫 기본 정보 호출 
@@ -47,8 +48,7 @@ export default async function QnAPage({ params }: QnAPageProps) {
 
   if (!petData || petData.length === 0) {
     console.log("펫 데이터를 불러오지 못하였습니다.", petError)
-    // 404에러나 해당 영역 에러케이스 추가
-    return
+    throw new Error("펫 데이터를 불러오지 못하였습니다.")
   }
 
   // 펫 상세 정보 호출
@@ -60,8 +60,7 @@ export default async function QnAPage({ params }: QnAPageProps) {
 
   if (!statusData || statusError) {
     console.log("펫 상태 정보를 불러오지 못했습니다.", statusError)
-    //404에로나 해당 영역 에러케이스 추가
-    return
+    throw new Error("펫 상태 정보를 불러오지 못했습니다.")
   }
 
   return (
@@ -70,7 +69,9 @@ export default async function QnAPage({ params }: QnAPageProps) {
       {/* 돌아가기 / 수정 / 삭제 버튼 */}
       <QnAButton id={paramsId} page={paramsPage} role={roleData.role} />
       {/* 질문리스트 */}
-      <Question id={paramsId} page={paramsPage} user={user} petData={petData[0]} statusData={statusData} />
+      <ErrorBoundaryWaper>
+        <Question id={paramsId} page={paramsPage} user={user} petData={petData[0]} statusData={statusData} />
+      </ErrorBoundaryWaper>
       {/* 답변 */}
       <AdminAnswer role={roleData.role} username={roleData.username} />
     </>
