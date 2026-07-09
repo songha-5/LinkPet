@@ -5,6 +5,7 @@ import BaseButton from "@/src/app/_components/button/BaseButton";
 import BaseInput from "@/src/app/_components/input/BaseInput";
 import { SignupFormData, SignupSchma } from "@/src/app/_lib/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -14,7 +15,7 @@ export default function () {
     register,
     handleSubmit,
     setError,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm<SignupFormData>({
     resolver: zodResolver(SignupSchma),
     mode: "onChange"
@@ -78,7 +79,7 @@ export default function () {
         <p className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
 
         <div className="mbs-10">
-          <BaseButton type='submit' content="가입 완료하기 (JOIN)" color="pink" outline />
+          <BaseButton disabled={isSubmitting} type='submit' content={isSubmitting ? (<><LoaderCircle className="animate-spin w-6 h-6 me-3" />가입 완료 중 (JOIN...)</>) : `가입 완료하기 (JOIN)`} color="pink" outline />
         </div>
       </form>
     </fieldset>

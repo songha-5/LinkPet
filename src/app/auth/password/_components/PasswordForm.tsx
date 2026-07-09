@@ -5,7 +5,8 @@ import BaseButton from "@/src/app/_components/button/BaseButton"
 import BaseInput from "@/src/app/_components/input/BaseInput"
 import { PasswordEmailFormData, PasswordEmailSchma } from "@/src/app/_lib/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
+import { LoaderCircle } from "lucide-react"
+import { notFound, useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
 export default function PasswordForm() {
@@ -15,7 +16,7 @@ export default function PasswordForm() {
     register,
     handleSubmit,
     setError,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm<PasswordEmailFormData>({
     resolver: zodResolver(PasswordEmailSchma),
     mode: "onChange"
@@ -33,8 +34,8 @@ export default function PasswordForm() {
       }
     } catch(error) {
       console.log("오류가 일어났습니다.", error)
-      // 404페이지나 팝업띄워야함
       setError("root", { message: "서버와 통신 중 오류가 일어났습니다."})
+      notFound()
     }
   }
 
@@ -58,7 +59,7 @@ export default function PasswordForm() {
         <p aria-live="assertive" className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
         
         <div className="mbs-10">
-          <BaseButton type='submit' content="인증 메일 전송 (SAND_CODE)" color="green" />
+          <BaseButton type='submit' content={isSubmitting ? ( <><LoaderCircle className="animate-spin w-6 h-6 me-3" /> 인증 메일 전송 중 (SAND_CODE...)</>) : (`인증 메일 전송 (SAND_CODE)`)} color="green" disabled={isSubmitting}/>
         </div>
       </form>
     </fieldset>

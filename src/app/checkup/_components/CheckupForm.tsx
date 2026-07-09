@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckupFormData, CheckupSchema } from "../../_lib/checkup";
 import { useRouter } from "next/navigation";
 import { ALL_CHECKUP_ITEMS } from "../type/checkupType";
+import { LoaderCircle } from "lucide-react";
 
 export default function CheckupForm() {
   const route = useRouter()
@@ -30,7 +31,7 @@ export default function CheckupForm() {
   })
 
   // error메세지 출력을 위한 methods
-  const { watch, formState: { errors }} = methods
+  const { watch, formState: { errors, isSubmitting }} = methods
   
   // 조건을 걸기위한 watch (aiResult: 버튼 disabled, petType: 고양이/강아지 타입별 문답)
   const petType = methods.watch("type")
@@ -201,10 +202,10 @@ export default function CheckupForm() {
             )} 
             <BaseButton
               type={step !== componentsLenght ? "button" : "submit"}
-              content={step !== componentsLenght ? "NEXT (다음) ▶" : "COMPLEATE (제출) ■"}
+              content={step !== componentsLenght ? "NEXT (다음) ▶" : isSubmitting ? (<><LoaderCircle className="animate-spin h-6 w-6 me-3" />COMPLEATE (제출 중) ... ■</>) : "COMPLEATE (제출) ■"}
               color={step !== componentsLenght ? "pink" : "green"}
               onClick={() => handleStepCount("next")}
-              disabled={!isCurrentCheckup || isAnalyzing}
+              disabled={!isCurrentCheckup || isAnalyzing || isSubmitting}
             />
           </div>
         </section>

@@ -67,7 +67,7 @@ export default async function UserPage() {
                 <PetInfo />
               </ErrorBoundaryWaper>
             ) : (
-              <div>
+              <div className="flex-1">
                 <h2 className="text-2xl text-neonPink">🐾 PET_CORE_DATA // 나의 펫 검사하기</h2>
                 <Link href={'/checkup'} className="cursor-pointer hover:bg-bg-gray-800 transition-all block text-center p-20 border-4 border-gray-default border-dashed mbs-2 text-4xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">펫_검사하기</Link>
               </div>

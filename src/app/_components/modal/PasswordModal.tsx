@@ -7,6 +7,7 @@ import { useModalStore } from "@/src/store/useModalStore";
 import SimpleModal from "./SimpleModal";
 import { useRouter } from "next/navigation";
 import { passwordUserChange } from "@/src/actions/auth.passwordUserChange";
+import { LoaderCircle } from "lucide-react";
 
 interface PassworModalProps {
 }
@@ -19,7 +20,7 @@ export default function PasswordModal({ }: PassworModalProps) {
     register,
     handleSubmit,
     setError,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm({
     resolver: zodResolver(PasswordUserChangeSchma),
     mode: "onChange"
@@ -73,7 +74,7 @@ export default function PasswordModal({ }: PassworModalProps) {
         errorMsg={errors.confirmPassword?.message}
       />
       <p aria-live="assertive" className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
-      <BaseButton type="submit" content="비밀번호 수정 (UPDATE)" outline className="text-[18px] h-14! mt-10"/>
+      <BaseButton type="submit" content={isSubmitting ? (<><LoaderCircle className="animate-spin w-5 h-5 me-3" />비밀번호 수정 중 (UPDATE...)</>) : `비밀번호 수정 (UPDATE)`} outline className="text-[18px] h-14! mt-10" disabled={isSubmitting}/>
     </form>
   )
 }
