@@ -4,6 +4,7 @@ import Tag from "../../_components/Tag";
 import { getUser } from "../../_lib/getUser";
 import { Fragment } from "react";
 import { ALL_CHECKUP_ITEMS } from "../../checkup/type/checkupType";
+import ErrorBoundaryWaper from "../../_components/error/ErrorBoundaryWapper";
 
 export default async function PetInfo() {
   const supabase = await createClient()
@@ -21,8 +22,7 @@ export default async function PetInfo() {
 
   if (!petData || petData.length === 0 || !petSelect) {
     console.log("펫 데이터를 불러오지 못하였습니다.", petError)
-    // 404에러나 해당 영역 에러케이스 추가
-    return
+    throw new Error("펫 데이터를 불러오지 못하였습니다.")
   }
 
   const statusSelect = petData?.[0]
@@ -41,8 +41,7 @@ export default async function PetInfo() {
 
   if (!statusData || statusError) {
     console.log("펫 상태 정보를 불러오지 못했습니다.", statusError)
-    //404에로나 해당 영역 에러케이스 추가
-    return
+    throw new Error("펫 상태 정보를 불러오지 못했습니다.")
   }
 
   // 성별 구분
@@ -70,36 +69,40 @@ export default async function PetInfo() {
     <>
       <div className="text-neonPink">
         <h2 className="text-2xl">🐾 PET_CORE_DATA // 개체 프로필</h2>
-        <strong className="block mbs-2 text-4xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">{petSelect.name} (CODE_V1.0)</strong>
-        <p className="text-[16px] text-font-subText">종족: {petGender} // 나이 프로토콜: {petSelect.age}YEARS_OLD</p>
-        <p className="text-[16px] text-font-subText">몸무게: {Math.ceil(petSelect.weight * 100) / 100}kg</p>
+        <ErrorBoundaryWaper>
+          <strong className="block mbs-2 text-4xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">{petSelect.name} (CODE_V1.0)</strong>
+          <p className="text-[16px] text-font-subText">종족: {petGender} // 나이 프로토콜: {petSelect.age}YEARS_OLD</p>
+          <p className="text-[16px] text-font-subText">몸무게: {Math.ceil(petSelect.weight * 100) / 100}kg</p>
 
-        <div className="flex gap-3 flex-wrap mbs-4">
-          {Object.entries(statusData.symptoms || {}).map(([key, value]) => {
-            // 배열 + 원시타입을 배열화 
-            const safeValues = Array.isArray(value) ? value : [value] as string[]
-            return (
-              <Fragment key={key}>
-                {safeValues.filter((items) => items !== "on").map((item, index) => {
-                  // -10점만 경고 컬러로 변경
-                  const foundItem = ALL_CHECKUP_ITEMS.find((check) => check.option === item)
-                  const isDanger = foundItem?.score === -10
+          <div className="flex gap-3 flex-wrap mbs-4">
+            {Object.entries(statusData.symptoms || {}).map(([key, value]) => {
+              // 배열 + 원시타입을 배열화 
+              const safeValues = Array.isArray(value) ? value : [value] as string[]
+              return (
+                <Fragment key={key}>
+                  {safeValues.filter((items) => items !== "on").map((item, index) => {
+                    // -10점만 경고 컬러로 변경
+                    const foundItem = ALL_CHECKUP_ITEMS.find((check) => check.option === item)
+                    const isDanger = foundItem?.score === -10
 
-                  return <Tag key={index} content={item} tag color={isDanger ? "pink" : "yellow"} />
-                })}
-              </Fragment>
-            )
-          })}
-        </div>
+                    return <Tag key={index} content={item} tag color={isDanger ? "pink" : "yellow"} />
+                  })}
+                </Fragment>
+              )
+            })}
+          </div>
+        </ErrorBoundaryWaper>
       </div>
 
       <div className="mbs-10 border-3 border-dashed border-font-caption p-5 bg-bg-gray lg:mt-0 lg:ms-4">
         <strong className="text-font-subText">MATRIX_HEALTH_ALERT // 진단 상태 알림</strong>
-
+          
         <div className="flex flex-col gap-3 mbs-5">
-          {PET_STATUS.map((item, index) => (
-            <StateNoti key={index} title={item.title} content={item.content} color={petScore(item.type)}/>
-          ))}
+          <ErrorBoundaryWaper>
+            {PET_STATUS.map((item, index) => (
+              <StateNoti key={index} title={item.title} content={item.content} color={petScore(item.type)}/>
+            ))}
+          </ErrorBoundaryWaper>
         </div>
       </div>
     </>
