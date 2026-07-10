@@ -135,13 +135,20 @@ export default async function UserPage() {
             </ErrorBoundaryWaper>
             
             {/* 질문 등록은 USER만 볼 수 있음 */}
-            {userData?.role === "USER" && (
+            {userData?.role === "USER" && userData.pet.length !== 0  && (
               <Link href={'/qna/id/page/edit'} className="group flex justify-center items-center focus-visible:outline-neonPink p-2 w-full border-3 border-neonPink text-neonPink hover:bg-neonPink hover:text-font-white transition-all mbs-4 cursor-pointer">
                 <span className="me-1">질문하기</span>
                 <svg viewBox="0 0 11 11" width="12" height="12" className="transition-all fill-neonPink group-hover:fill-white">
                   <path d="M4,0h3v11h-3z M0,4h11v3h-11z"></path>
                 </svg>
               </Link>
+            )}
+
+            {/* 펫 검사 추천 */}
+            {userData?.pet.length === 0 && (
+              <div className="flex justify-center border-3 border-dashed border-gray-default bg-bg h-20">
+                <p className="flex items-center text-gray-default text-lg">펫 검사 후 수의사선생님과 상담을 진행할 수 있어요!</p>
+              </div>
             )}
           </div>
         </section>
