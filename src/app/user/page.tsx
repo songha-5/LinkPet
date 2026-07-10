@@ -9,6 +9,9 @@ import Link from "next/link";
 import { getUser } from "../_lib/getUser";
 import PetInfo from "./_components/PetInfo";
 import ErrorBoundaryWaper from "../_components/error/ErrorBoundaryWapper";
+import SkeletonQnA from "../_components/skeleton/SkeletonQnA";
+import { Suspense } from "react";
+import SkeletonState from "../_components/skeleton/SkeletonState";
 
 export default async function UserPage() {
 
@@ -57,14 +60,16 @@ export default async function UserPage() {
       <Header />
       <h1 className="sr-only">나의 반려동물 건강 정보 및 Q&A</h1>
 
-      <main className="relative pbs-25 px-6 mbe-10 max-w-7xl m-auto">
+      <main className="relative pbs-25 px-6 mbe-10 max-w-7xl m-auto w-full">
         {/* 반려동물 정보 */}
         <section className="transition-all border-7 bg-bg border-neonPink shadow-[10px_10px_0_var(--color-neonPink)] p-8.5 lg:flex lg:flex-row">
 
           {/* 반려동물 이름/종/나이/아픈정도/검사페이지 이동 */}
           {hasPet ? ( 
               <ErrorBoundaryWaper>
-                <PetInfo />
+                <Suspense fallback={<SkeletonState />}>
+                  <PetInfo />
+                </Suspense>
               </ErrorBoundaryWaper>
             ) : (
               <div className="flex-1">
@@ -100,9 +105,11 @@ export default async function UserPage() {
 
             <ErrorBoundaryWaper>
               <div className={`flex flex-col gap-4 mbs-6 lg:overflow-y-scroll ${userData?.role === "ADMIN" ? 'lg:max-h-110 lg:min-h-110': 'lg:max-h-94 lg:min-h-94'}`}>
-                {qnaSort.map((item) => (
-                  <QnACard key={item.id} id={item.id} user_id={item.user_id} title={item.title} tags={['태그1', '태그2']} update={item.created_at} isAnwers={item.is_answered} />
-                ))}
+                <Suspense fallback={<SkeletonQnA />}>
+                  {qnaSort.map((item) => (
+                    <QnACard key={item.id} id={item.id} user_id={item.user_id} title={item.title} tags={['태그1', '태그2']} update={item.created_at} isAnwers={item.is_answered} />
+                  ))}
+                </Suspense>
               </div>
             </ErrorBoundaryWaper>
             
