@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckupFormData, CheckupSchema } from "../../_lib/checkup";
 import { useRouter } from "next/navigation";
 import { ALL_CHECKUP_ITEMS } from "../type/checkupType";
+import { LoaderCircle } from "lucide-react";
 
 export default function CheckupForm() {
   const route = useRouter()
@@ -30,7 +31,7 @@ export default function CheckupForm() {
   })
 
   // error메세지 출력을 위한 methods
-  const { watch, formState: { errors }} = methods
+  const { watch, formState: { errors, isSubmitting }} = methods
   
   // 조건을 걸기위한 watch (aiResult: 버튼 disabled, petType: 고양이/강아지 타입별 문답)
   const petType = methods.watch("type")
@@ -54,10 +55,6 @@ export default function CheckupForm() {
     if (Array.isArray(value) && value.length === 0) return false
     return true
   }))
-
-  const onError = (errors: any) => {
-    console.log("폼 제출 실패", errors)
-  }
 
   // 데이터 전송
   const onSubmit = async (data: CheckupFormData) => {
@@ -131,7 +128,7 @@ export default function CheckupForm() {
       route.push('/user')
     } catch(error) {
       console.log("데이터 전송 실패", error)
-      // 404??
+      throw new Error("데이터 전송을 실패하였습니다.")
     }
   }
 
@@ -167,7 +164,7 @@ export default function CheckupForm() {
       <Link href={'/user'} className="inline-block cursor-pointer transition-all hover:border-neonPink hover:text-neonPink border-5 border-font-white py-2 px-4" aria-label="컨트롤 룸으로 돌아가기">◀ 컨트롤 룸 복귀 (BACK)</Link>
 
       { /* 현재 페이지 정보 */}
-      <form className="mbs-4" onSubmit={methods.handleSubmit(onSubmit, onError)}>
+      <form className="mbs-4" onSubmit={methods.handleSubmit(onSubmit)}>
         {/* 타이틀바 */}
         <div className="flex justify-between">
           <div>
@@ -205,10 +202,10 @@ export default function CheckupForm() {
             )} 
             <BaseButton
               type={step !== componentsLenght ? "button" : "submit"}
-              content={step !== componentsLenght ? "NEXT (다음) ▶" : "COMPLEATE (제출) ■"}
+              content={step !== componentsLenght ? "NEXT (다음) ▶" : isSubmitting ? (<><LoaderCircle className="animate-spin h-6 w-6 me-3" />COMPLEATE (제출 중) ... ■</>) : "COMPLEATE (제출) ■"}
               color={step !== componentsLenght ? "pink" : "green"}
               onClick={() => handleStepCount("next")}
-              disabled={!isCurrentCheckup || isAnalyzing}
+              disabled={!isCurrentCheckup || isAnalyzing || isSubmitting}
             />
           </div>
         </section>

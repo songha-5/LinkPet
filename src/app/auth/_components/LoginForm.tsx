@@ -8,10 +8,11 @@ import { loginAction } from "@/src/actions/auth.login"
 import { Kakao } from '@/src/actions/auth.kakao';
 import BaseInput from "../../_components/input/BaseInput"
 import BaseButton from "../../_components/button/BaseButton"
+import { LoaderCircle } from "lucide-react"
 
 export default function LoginForm() {
   const router = useRouter()
- 
+
   // 유효성 검사 호출
   // register로 타입별 해당하는 유효성 체크
   // handleSubmit으로 해당 타입의 유효성이 맞는지 확인 (submit 눌렀을 시 해당 유효성 작동)
@@ -19,7 +20,7 @@ export default function LoginForm() {
     register,
     handleSubmit,
     setError,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchma),
     mode: "onChange"
@@ -64,7 +65,7 @@ export default function LoginForm() {
         <p aria-live="assertive" className='text-neonPink mt-2 text-center'>{errors.root?.message}</p>
 
         <div className="mbs-10">
-          <BaseButton type='submit' content="로그인하기 (LOGIN)"/>
+          <BaseButton type='submit' content={isSubmitting ? ( <><LoaderCircle className="animate-spin w-6 h-6 me-3" /> 로그인 중 (LOGIN...)</> ) : '로그인하기 (LOGIN)'} disabled={isSubmitting}/>
           <BaseButton onClick={Kakao} type='button' content="카카오 로그인 / 회원가입 (KAKAO)" color='yellow' className='mt-4' />
         </div>
       </form>
