@@ -7,10 +7,14 @@ import { useModalStore } from "@/src/store/useModalStore"
 import { createClient } from "@/src/utils/supabase/client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import PostDetail from "@/src/utils/PostDetail"
 import ErrorBoundaryWaper from "@/src/app/_components/error/ErrorBoundaryWapper"
+import SkeletonAnswerWating from "@/src/app/_components/skeleton/SkeletonAnswerWating"
+import SkeletonAnswerTitle from "@/src/app/_components/skeleton/SkeletonAnswerTitle"
+import SkeletonAnswerContent from "@/src/app/_components/skeleton/SkeletonAnswerContent"
+import SkeletonAnswerButton from "@/src/app/_components/skeleton/SkeletonAnswerButton"
 
 interface AdminAnswerUserProps {
   id?: string
@@ -164,21 +168,25 @@ export default function AdminAnswer({ role, username }: AdminAnswerProps) {
         </section>
       ) : (
         <section className={`flex flex-col border-5 bg-bg p-8.5 ${edit ? 'border-neonYellow shadow-[6px_6px_0_var(--color-neonYellow-opacity)]' : 'border-neonGreen shadow-[6px_6px_0_var(--color-neonGreen-opacity)]'} `}>
-          <strong className={`block text-2xl ${edit ? 'text-neonYellow' : 'text-neonGreen'}`}>⚙️ RESPONSE_PATCH_EDITOR // 답변 데이터</strong>
+          <Suspense fallback={<SkeletonAnswerTitle />}>
+            <strong className={`block text-2xl ${edit ? 'text-neonYellow' : 'text-neonGreen'}`}>⚙️ RESPONSE_PATCH_EDITOR // 답변 데이터</strong>
 
-          <div className="items-center flex border-b-2 pbe-5 border-gray-default border-dashed pbs-4 mbe-6">
-            <div className={`border-3 pbs-2 pbe-1 px-1 text-3xl ${edit ? 'border-neonYellow' : 'border-neonGreen'}`}>🩺</div>
-            <div className="ms-4">
-              <strong className={`block text-lg ${edit ? 'text-neonYellow' : 'text-neonGreen'}`}>DR. 픽셀캣 ({username})</strong>
-              <p className="text-[14px] text-font-subText">LINKPET 전문 의료 네트워크 위원 // 메디컬 코드 #402</p>
+            <div className="items-center flex border-b-2 pbe-5 border-gray-default border-dashed pbs-4 mbe-6">
+              <div className={`border-3 pbs-2 pbe-1 px-1 text-3xl text-center w-14 ${edit ? 'border-neonYellow' : 'border-neonGreen'}`}>🩺</div>
+              <div className="ms-4">
+                <strong className={`block text-lg ${edit ? 'text-neonYellow' : 'text-neonGreen'}`}>DR. 픽셀캣 ({username})</strong>
+                <p className="text-[14px] text-font-subText">LINKPET 전문 의료 네트워크 위원 // 메디컬 코드 #402</p>
+              </div>
             </div>
-          </div>
+          </Suspense>
 
           {/* 등록 안내 문구 */}
           {postData?.is_answered === false ? (
             <>
-              <strong className="mbs-8 animate-blink text-neonYellow text-2xl text-center" aria-label="전문가의 답변을 기다리는 중입니다.">[ ⏳ . . . ]<br />AWAITING_VET_RESPONSE</strong>
-              <p className="mbe-6 text-center mbs-4 text-gray-default">전문 수의사 네트워크 노드에 패킷 분배 완료.<br />답변 연산을 동기화 중입니다.<br />실시간 매칭 상태: <span className="text-neonPink">[BUFFERING...]</span></p>
+              <Suspense fallback={<SkeletonAnswerWating />}>
+                <strong className="mbs-8 animate-blink text-neonYellow text-2xl text-center" aria-label="전문가의 답변을 기다리는 중입니다.">[ ⏳ . . . ]<br />AWAITING_VET_RESPONSE</strong>
+                <p className="mbe-6 text-center mbs-4 text-gray-default">전문 수의사 네트워크 노드에 패킷 분배 완료.<br />답변 연산을 동기화 중입니다.<br />실시간 매칭 상태: <span className="text-neonPink">[BUFFERING...]</span></p>
+              </Suspense>
             </>
           ) : (
             <></>
@@ -186,24 +194,30 @@ export default function AdminAnswer({ role, username }: AdminAnswerProps) {
 
           {/* 에디터 */}
           {edit === true ? (
-            <div className="mbs-4 border-3 px-5 py-5 shadow-[4px_4px_0_var(--color-font-white-shadow)]">
-              <TiptapInput control={control} name="content" />
-            </div>
+            <Suspense fallback={<SkeletonAnswerContent />}>
+              <div className="mbs-4 border-3 px-5 py-5 shadow-[4px_4px_0_var(--color-font-white-shadow)]">
+                <TiptapInput control={control} name="content" />
+              </div>
+            </Suspense>
           ) : (
             <ErrorBoundaryWaper>
-              <PostDetail data={postData.admin_body || ''} />
+              <Suspense fallback={<SkeletonAnswerContent />}>
+                <PostDetail data={postData.admin_body || ''} />
+              </Suspense>
             </ErrorBoundaryWaper>
           )}
 
           {role === 'ADMIN' && (
             <div className="flex gap-3 self-end mbs-4">
               {edit === true ? (
-                <>
+                <Suspense fallback={<SkeletonAnswerButton />}>
                   <button onClick={handleEdit} type="button" className="border-3 border-neonPink text-neonPink py-1 px-6 cursor-pointer hover:bg-neonPink hover:text-bg transition-all inline-block">수정 취소 (CANCEL)</button>
                   <button onClick={handleSubmit(onSubmit)} type="button" className="border-3 border-font-white text-font-white py-1 px-6 cursor-pointer hover:bg-font-white hover:text-bg transition-all inline-block">수정 완료 (PATCH_APPLY)</button>
-                </>
+                </Suspense>
               ) : (
-                <button onClick={handleEdit} type="button" className="border-3 border-font-white text-font-white py-1 px-6 cursor-pointer hover:bg-font-white hover:text-bg transition-all inline-block">등록 하기 (CREATE_APPLY)</button>
+                <Suspense fallback={<SkeletonAnswerButton />}>
+                  <button onClick={handleEdit} type="button" className="border-3 border-font-white text-font-white py-1 px-6 cursor-pointer hover:bg-font-white hover:text-bg transition-all inline-block">등록 하기 (CREATE_APPLY)</button>
+                </Suspense>
               )}
             </div>
           )}
