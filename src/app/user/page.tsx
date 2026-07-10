@@ -13,6 +13,21 @@ import SkeletonQnA from "../_components/skeleton/SkeletonQnA";
 import { Suspense } from "react";
 import SkeletonState from "../_components/skeleton/SkeletonState";
 
+interface DataProps {
+  id: string
+  title: string
+  is_answered: boolean
+  created_at: string
+  user_id: string
+  users?: {
+    pet?: {
+      pet_status?: {
+        symptoms: string[]
+      }[]
+    }[]
+  }
+}
+
 export default async function UserPage() {
 
   // 유저 데이터 호출
@@ -34,7 +49,7 @@ export default async function UserPage() {
   // USER QnA 리스트
   const { data: qnaData, error: qnaError } = isAdmin ? 
    await supabase.from('posts').select('id, title, is_answered, created_at, user_id') :
-   await supabase.from('posts').select('id, title, is_answered, created_at, user_id').eq('user_id', user.id)
+   await supabase.from('posts').select('id, title, is_answered, created_at, user_id, users!user_id(pet (pet_status (symptoms)))').eq('user_id', user.id)
   
   // 에러케이스
   if (qnaError) {
@@ -43,7 +58,7 @@ export default async function UserPage() {
   }
   
   // 정렬기능 추가 (최신순, 답변순)
-  const qnaSort = [...qnaData].sort((a, b) => {
+  const qnaSort = ([...qnaData] as DataProps[]).sort((a, b) => {
     const answeredA = Number(a.is_answered)
     const answeredB = Number(b.is_answered)
     if (answeredA !== answeredB) {
@@ -106,9 +121,15 @@ export default async function UserPage() {
             <ErrorBoundaryWaper>
               <div className={`flex flex-col gap-4 mbs-6 lg:overflow-y-scroll ${userData?.role === "ADMIN" ? 'lg:max-h-110 lg:min-h-110': 'lg:max-h-94 lg:min-h-94'}`}>
                 <Suspense fallback={<SkeletonQnA />}>
-                  {qnaSort.map((item) => (
-                    <QnACard key={item.id} id={item.id} user_id={item.user_id} title={item.title} tags={['태그1', '태그2']} update={item.created_at} isAnwers={item.is_answered} />
-                  ))}
+                  {qnaSort.map((item) => {
+                    const tagsObject = item.users?.pet?.[0]?.pet_status?.[0].symptoms
+                    const tagsList = tagsObject ? Object.values(tagsObject).flat() : []
+                    const tags = tagsList.filter((item) => item !== 'on')
+
+                    return (
+                      <QnACard key={item.id} id={item.id} user_id={item.user_id} title={item.title} tags={tags} update={item.created_at} isAnwers={item.is_answered} />
+                    )
+                  })}
                 </Suspense>
               </div>
             </ErrorBoundaryWaper>

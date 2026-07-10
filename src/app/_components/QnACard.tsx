@@ -25,7 +25,7 @@ export default function QnACard({ id, user_id, title, tags, isAnwers = false, up
 
       {/* QnA 정보 */}
       <div className="flex justify-between align-middle mbs-4 border-t-2 border-dashed border-bg-gray-100">
-        <div className="flex gap-3 pbs-2.5 flex-1">
+        <div className="flex flex-wrap gap-3 pbs-2.5 flex-1">
           {tags && (
             <>
               {tags.map((item, i) => (
