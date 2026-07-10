@@ -84,8 +84,9 @@ export default async function PetInfo() {
                     // -10점만 경고 컬러로 변경
                     const foundItem = ALL_CHECKUP_ITEMS.find((check) => check.option === item)
                     const isDanger = foundItem?.score === -10
+                    const isSafe = foundItem?.score === 0
 
-                    return <Tag key={index} content={item} tag color={isDanger ? "pink" : "yellow"} />
+                    return <Tag key={index} content={item} tag color={isDanger ? "pink" : isSafe ? "green" : "yellow"} />
                   })}
                 </Fragment>
               )
