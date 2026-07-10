@@ -15,8 +15,6 @@ export default async function EditPage({ params }: EditPageProps) {
   const { data: postDate } = await supabase.from('posts').select('title, body').eq('user_id', paramId).eq('id', paramPage).single()
   const { data: petData } = await supabase.from('pet').select('name, age, weight, type').eq('user_id', user.id)
   
-  console.log('pet', JSON.stringify(petData, null, 2))
-
   return (
     <>
       <h1 className="sr-only">게시글 등록</h1>

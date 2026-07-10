@@ -78,7 +78,7 @@ export default function EditForm({ id, title, body, petName, petAge, petWeight, 
 
   // 글 삭제 submit
   const onEditSubmit = async (data: QnAEditFormData) => {
-    const dataMix = { ...data }
+    const dataMix = { ...data, id: Number(id) }
     const result = await qnaEditAction(dataMix)
     handleActionSubmit(result)
   }
