@@ -22,9 +22,12 @@ interface EditFormProps {
   id?: string
   title: string
   body: string
+  petName: string
+  petAge: string
+  petWeight: string
 }
 
-export default function EditForm({ id, title, body }: EditFormProps) {
+export default function EditForm({ id, title, body, petName, petAge, petWeight }: EditFormProps) {
   const router = useRouter()
   const openModal = useModalStore((state) => state.openModal)
   const isEditMode = Boolean(id) && id !== "undefiend" && !isNaN(Number(id))
@@ -95,7 +98,7 @@ export default function EditForm({ id, title, body }: EditFormProps) {
         />
         <BaseInput
           title="TARGET_PET // 대상 반려동물"
-          content="초코 (말티즈 / 3세)"
+          content={`${petName} ( ${petAge}살 / ${petWeight}kg )`}
           placeholder="질문 제목을 입력해주세요."
           className="[&_strong]:text-sm mbs-4 [&_input]:border-4"
           disabled
