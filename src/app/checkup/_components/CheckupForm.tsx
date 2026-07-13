@@ -40,7 +40,7 @@ export default function CheckupForm() {
   const CHECKUP_VALIDATION = [
     ['name', 'age', 'weight', 'type', 'gender', 'neuter'],
     petType === 'cat' ? ['snack', 'outing'] : undefined,
-    ['aiResult'],
+    [],
     ['skin'],
     ['mouth'],
     ['activity'],
