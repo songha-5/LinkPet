@@ -49,7 +49,7 @@ const BaseCheckbox = forwardRef<HTMLInputElement, BaseCheckboxProps>(({ value, n
       {value.map((option) => (
         <div key={option.id}>
           <input ref={ref} {...restProps} onChange={() => handleClick(option.id)} checked={checkboxValue.includes(option.id)} value={option.option} id={`select-option-${option.id}`} type="checkbox" className="appearance-none peer sr-only"/>
-          <label htmlFor={`select-option-${option.id}`} className="ps-4 border-5 flex h-14 items-center shadow-[4px_4px_0_var(--color-font-white-shadow)] hover:text-neonPink hover:border-neonPink hover:shadow-[4px_4px_0_var(--color-neonPink)] peer-checked:text-neonGreen peer-checked:shadow-[4px_4px_0_var(--color-neonGreen)] peer-checked:[&_span]:inline-block cursor-pointer peer-checked:hover:text-neonGreen peer-checked:hover:text-neon-green peer-checked:hover:border-neonGreen peer-checked:hover:shadow-[4px_4px_0_var(--color-neonGreen)]">
+          <label htmlFor={`select-option-${option.id}`} className="ps-4 border-5 flex h-14 items-center shadow-[4px_4px_0_var(--color-font-white-shadow)] hover:text-neonPink hover:border-neonPink hover:shadow-[4px_4px_0_var(--color-neonPink)] peer-checked:text-neonGreen peer-checked:shadow-[4px_4px_0_var(--color-neonGreen)] peer-checked:[&_span]:inline-block cursor-pointer peer-checked:hover:text-neonGreen peer-checked:hover:text-neon-green peer-checked:hover:border-neonGreen peer-checked:hover:shadow-[4px_4px_0_var(--color-neonGreen)] peer-focus-visible:border-neonPink">
             <span className="hidden me-1 animate-opacityBlink">▶</span>
             <span>{option.label}</span>
           </label>
@@ -61,7 +61,7 @@ const BaseCheckbox = forwardRef<HTMLInputElement, BaseCheckboxProps>(({ value, n
         <div>
           <input ref={ref} {...restProps} onChange={() => handleClick('none')}
           checked={checkboxValue.includes('none')} id="select-none" type="checkbox" className="appearance-none peer sr-only"/>
-          <label htmlFor="select-none" className="ps-4 border-5 flex h-14 items-center shadow-[4px_4px_0_var(--color-font-white-shadow)] hover:text-neonPink hover:border-neonPink hover:shadow-[4px_4px_0_var(--color-neonPink)] peer-checked:text-neonGreen peer-checked:shadow-[4px_4px_0_var(--color-neonGreen)] peer-checked:[&_span]:inline-block cursor-pointer peer-checked:hover:text-neonGreen peer-checked:hover:text-neon-green peer-checked:hover:border-neonGreen peer-checked:hover:shadow-[4px_4px_0_var(--color-neonGreen)]">
+          <label htmlFor="select-none" className="ps-4 border-5 flex h-14 items-center shadow-[4px_4px_0_var(--color-font-white-shadow)] hover:text-neonPink hover:border-neonPink hover:shadow-[4px_4px_0_var(--color-neonPink)] peer-checked:text-neonGreen peer-checked:shadow-[4px_4px_0_var(--color-neonGreen)] peer-checked:[&_span]:inline-block cursor-pointer peer-checked:hover:text-neonGreen peer-checked:hover:text-neon-green peer-checked:hover:border-neonGreen peer-checked:hover:shadow-[4px_4px_0_var(--color-neonGreen)] peer-focus-visible:border-neonPink">
             <span className="hidden me-1 animate-opacityBlink">▶</span>
             <span>{noneContent}</span>
           </label>
