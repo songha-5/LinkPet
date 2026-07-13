@@ -48,7 +48,7 @@ export default async function UserPage() {
   // QnA 리스트 호출
   // USER QnA 리스트
   const { data: qnaData, error: qnaError } = isAdmin ? 
-   await supabase.from('posts').select('id, title, is_answered, created_at, user_id') :
+   await supabase.from('posts').select('id, title, is_answered, created_at, user_id, users!user_id(pet (pet_status (symptoms)))') :
    await supabase.from('posts').select('id, title, is_answered, created_at, user_id, users!user_id(pet (pet_status (symptoms)))').eq('user_id', user.id)
   
   // 에러케이스
