@@ -17,12 +17,12 @@ export default async function QnAPage({ params }: QnAPageProps) {
   const paramsPage = paramsProps.page
 
   const supabase = await createClient()
-  const { error: postError } = await supabase
+  const { data: postData,  error: postError } = await supabase
     .from('posts')
-    .select('is_answered, admin_id')
+    .select('is_answered, admin_id, users!user_id(id)')
     .eq('user_id', paramsId)
     .eq('id', paramsPage)
-    .single()
+    .maybeSingle()
   if (postError) {
     console.log("데이터를 불러오지 못했습니다.")
     notFound()
@@ -33,18 +33,20 @@ export default async function QnAPage({ params }: QnAPageProps) {
     .from('users')
     .select('role, username')
     .eq('id', user.id)
-    .single()
+    .maybeSingle()
 
   if (!roleData) {
     console.log("유저 정보를 불러오지 못했습니다.")
     notFound()
   }
 
+  const userInfo = postData?.users as unknown as { id: string } | null
+
   // 펫 기본 정보 호출 
   const { data: petData, error: petError } = await supabase
   .from('pet')
   .select('id, name, age, gender, weight, type')
-  .eq('user_id', user.id)
+  .eq('user_id', userInfo?.id)
 
   if (!petData || petData.length === 0) {
     console.log("펫 데이터를 불러오지 못하였습니다.", petError)
@@ -56,7 +58,7 @@ export default async function QnAPage({ params }: QnAPageProps) {
   .from('pet_status')
   .select('symptoms, ai_analysis, point')
   .eq('pet_id', petData[0].id)
-  .single()
+  .maybeSingle()
 
   if (!statusData || statusError) {
     console.log("펫 상태 정보를 불러오지 못했습니다.", statusError)

@@ -22,9 +22,13 @@ interface EditFormProps {
   id?: string
   title: string
   body: string
+  petName: string
+  petAge: string
+  petWeight: string
+  petType: string
 }
 
-export default function EditForm({ id, title, body }: EditFormProps) {
+export default function EditForm({ id, title, body, petName, petAge, petWeight, petType }: EditFormProps) {
   const router = useRouter()
   const openModal = useModalStore((state) => state.openModal)
   const isEditMode = Boolean(id) && id !== "undefiend" && !isNaN(Number(id))
@@ -74,12 +78,13 @@ export default function EditForm({ id, title, body }: EditFormProps) {
 
   // 글 삭제 submit
   const onEditSubmit = async (data: QnAEditFormData) => {
-    const dataMix = { ...data }
+    const dataMix = { ...data, id: Number(id) }
     const result = await qnaEditAction(dataMix)
     handleActionSubmit(result)
   }
 
   const targetSubmit = isEditMode ? onEditSubmit : onCreateSubmit
+  const genderTransition = petType === 'cat' ? '고양이' : '강아지'
 
   return (
     <fieldset>
@@ -95,7 +100,7 @@ export default function EditForm({ id, title, body }: EditFormProps) {
         />
         <BaseInput
           title="TARGET_PET // 대상 반려동물"
-          content="초코 (말티즈 / 3세)"
+          content={`대상 개체: ${petName} ( ${genderTransition} / ${petAge}살 / ${petWeight}kg )`}
           placeholder="질문 제목을 입력해주세요."
           className="[&_strong]:text-sm mbs-4 [&_input]:border-4"
           disabled
