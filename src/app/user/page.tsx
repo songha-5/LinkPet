@@ -75,7 +75,7 @@ export default async function UserPage() {
       <Header />
       <h1 className="sr-only">나의 반려동물 건강 정보 및 Q&A</h1>
 
-      <main className="relative pbs-25 px-6 mbe-10 max-w-7xl m-auto w-full">
+      <main className="relative pbs-25 px-6 mbe-10 max-w-7xl mx-auto mbs-0 w-full">
         {/* 반려동물 정보 */}
         {userData?.role === "USER" && (
           <section className="transition-all border-7 bg-bg border-neonPink shadow-[10px_10px_0_var(--color-neonPink)] p-8.5 lg:flex lg:flex-row">
