@@ -2,10 +2,12 @@ import BaseButton from "../button/BaseButton";
 interface NotiModalProps {
   userId: string
   userPassword: string
+  adminId: string
+  adminPassword: string
   onClick: () => void
 }
 
-export default function NotiModal({onClick, userId, userPassword}: NotiModalProps) {
+export default function NotiModal({onClick, userId, userPassword, adminId, adminPassword}: NotiModalProps) {
   return (
     <>
       <strong className="block text-neonGreen text-3xl text-center">[ 🐾 ^•ﻌ•^ 🐾 ]</strong>
@@ -16,6 +18,8 @@ export default function NotiModal({onClick, userId, userPassword}: NotiModalProp
       <div className="text-font-white border-2 border-gray-default border-dashed p-6 text-center mbs-6">
         <p className="text-2xl">USER</p>
         <strong>ID - {userId}<br />PASSWORD - {userPassword}</strong>
+        <p className="mbs-8 text-2xl">ADMIN</p>
+        <strong>ID - {adminId}<br />PASSWORD - {adminPassword}</strong>
       </div>
       
       <BaseButton onClick={onClick} content="확인" outline className="mbs-4"/>
