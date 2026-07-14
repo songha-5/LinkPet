@@ -63,7 +63,7 @@ export default function AdminAnswer({ role, username }: AdminAnswerProps) {
         setPostData(postData as AdminAnswerPostProps)
     
       } catch (error) {
-        console.log("데이터를 불러오지 못했습니다.")
+        console.log("데이터를 불러오지 못했습니다.", error)
         throw new Error("데이터를 불러오지 못했습니다.")  
       }
     }
@@ -77,9 +77,6 @@ export default function AdminAnswer({ role, username }: AdminAnswerProps) {
   const {
     handleSubmit,
     control,
-    setError,
-    watch,
-    formState: { errors, isSubmitting }
   } = useForm({
     resolver: zodResolver(QnACreateAdminSchema),
     mode: "onChange",

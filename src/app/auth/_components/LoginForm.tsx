@@ -37,6 +37,7 @@ export default function LoginForm() {
         setError("root", { message: result.message})
       }
     } catch(error) {
+      console.log("서버와 통신중 오류가 일어났습니다.", error)
       setError("root", { message: "서버와 통신 중 오류가 일어났습니다."})
     }
   }

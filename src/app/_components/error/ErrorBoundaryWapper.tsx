@@ -1,6 +1,6 @@
 'use client'
 
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import { ErrorBoundary } from "react-error-boundary";
 import FetchErrorFallback from "./FetchErrorFallback";
 
 interface ErrorBoundaryProps {

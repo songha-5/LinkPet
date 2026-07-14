@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
     if(petError) throw new Error (`펫 정보를 저장/불러오기에 실패하였습니다. ${petError.message}`)
 
-    const { data: petStatusData, error: petStatusError } = await supabase.from('pet_status').insert({
+    const { error: petStatusError } = await supabase.from('pet_status').insert({
       pet_id: petData.id,
       symptoms: {
         "skin": body.skin,

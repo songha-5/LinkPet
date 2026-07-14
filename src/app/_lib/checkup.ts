@@ -1,7 +1,5 @@
 import z from "zod"
 
-const ACCEOTED_IMAGE_TYPE = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
-
 const checkupNameSchema = z.string().min(1, '한글자 이상 입력해주세요.')
 const checkupAgeSchema = z.string().min(1, '반려동물의 나이를 선택해주세요.')
 const checkupAiSchema = z.array(z.string()).optional()

@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes, useState } from "react"
+import { forwardRef, InputHTMLAttributes } from "react"
 import { useFormContext } from "react-hook-form"
 
 interface CheckboxOptionProps {
@@ -42,7 +42,7 @@ const BaseCheckbox = forwardRef<HTMLInputElement, BaseCheckboxProps>(({ value, n
     }
   }
 
-  const { onChange, ...restProps } = props
+  const { ...restProps } = props
 
   return (
     <div className="flex flex-col gap-3">
@@ -71,4 +71,5 @@ const BaseCheckbox = forwardRef<HTMLInputElement, BaseCheckboxProps>(({ value, n
   )
 })
 
+BaseCheckbox.displayName = 'BaseCheckbox'
 export default BaseCheckbox
