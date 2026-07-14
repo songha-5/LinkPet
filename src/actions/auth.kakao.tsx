@@ -7,7 +7,7 @@ import { createClient } from "../utils/supabase/client"
 export async function Kakao() {
   
   const supabase = createClient()
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { error } = await supabase.auth.signInWithOAuth({
     provider: 'kakao',
     options: {
       redirectTo: `${getURL()}api/auth/callback`

@@ -9,10 +9,7 @@ import { useRouter } from "next/navigation";
 import { passwordUserChange } from "@/src/actions/auth.passwordUserChange";
 import { LoaderCircle } from "lucide-react";
 
-interface PassworModalProps {
-}
-
-export default function PasswordModal({ }: PassworModalProps) {
+export default function PasswordModal() {
   const router = useRouter()
   const openModal = useModalStore((state) => state.openModal)
 

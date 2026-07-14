@@ -1,7 +1,5 @@
-import { createClient } from "@/src/utils/supabase/server";
 import Link from "next/link";
 import DeleteRow from "./DeleteTable";
-import { getUser } from "@/src/app/_lib/getUser";
 
 interface QnAButtonProps {
   id: string

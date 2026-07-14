@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useFormContext } from "react-hook-form";
 
 interface ImageButtonProps {

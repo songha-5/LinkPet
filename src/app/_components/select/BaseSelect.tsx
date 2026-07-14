@@ -34,5 +34,5 @@ const BaseSelect = forwardRef<HTMLSelectElement, BaseSelectProps>(({ title, plac
     </>
   )
 })
-
+BaseSelect.displayName = 'BaseSelect'
 export default BaseSelect
