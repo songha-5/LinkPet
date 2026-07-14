@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+:root {
+  --background: var(--color-bg);
+  --foreground: var(--color-bg);
+}
+
+@font-face {
+  font-family: 'DungGeunMo';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/neodgm_code.woff2') format('woff2-variations');
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-dungGeunMo: var(--font-DungGeunMo), Helvetica, sans-serif;
+
+  --color-neonPink: #FF007F;
+  --color-neonPink-opacity: rgba(255, 0, 127, 0.4);
+  --color-neonGreen: #39FF14;
+  --color-neonGreen-opacity: rgba(57, 255, 20, 0.3);
+  --color-neonYellow: #FEE500;
+  --color-neonYellow-opacity: rgba(254, 229, 0, 0.4);
+  --color-gray-default: #555;
+  --color-font: #191919;
+  --color-font-white: #F0F0F0;
+  --color-font-white-shadow: rgba(250, 250, 250, 0.15);
+  --color-font-subText: #888;
+  --color-font-caption: #333;
+  --color-bg: #0a0a0a;
+  --color-bg-gray: #0d0d0d;
+  --color-bg-gray-100: #222;
+  --color-bg-gray-200: #151515;
+  --color-bg-gray-800: #1e1d1d;
+  --bg-image-dot: radial-gradient(var(--color-bg-gray-100) 1px, transparent 1px);
+
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-slowBounce: slowBounce 1.4s infinite;
+  --animate-blink: blink 1.5s reverse infinite ;
+  --animate-opacityBlink: opacityBlink 1s infinite ;
+}
+
+@keyframes opacityBlink {
+  0%, 100% {opacity: 1;}
+  50% {opacity: 0;}
+}
+
+@keyframes blink {
+  0%, 48% {opacity: 0}
+  50%, 100% {opacity: 1}
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-25px); }
+}
+
+@keyframes slowBounce {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* 텍스트에디터 */
+.tiptap p.is-editor-empty:first-child::before,
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: theme('--color-font-subText');
+  font-size: 18px;
+}
+
+body {
+  background-color: var(--color-bg);
+  background-image: var(--bg-image-dot);
+  background-size: 20px 20px;
+  color: var(--color-font-white);
+  font-family: DungGeunMo, Helvetica, sans-serif;
+}
