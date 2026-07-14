@@ -9,7 +9,7 @@ import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-export default function () {
+export default function JoinFrom() {
   const router = useRouter()  
   const {
     register,

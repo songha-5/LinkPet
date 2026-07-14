@@ -15,6 +15,8 @@ export default function LoginModal() {
         onClick={closeModal}
         userId="test1@test.com"
         userPassword="password1"
+        adminId="admin@test.com"
+        adminPassword="admin1"
       />
     )
     return () => closeModal()

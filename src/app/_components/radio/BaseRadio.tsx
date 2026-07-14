@@ -23,4 +23,5 @@ const BaseRadio = forwardRef<HTMLInputElement, BaseRadioProps>(({ name, value, c
   )
 })
 
+BaseRadio.displayName = 'BaseRadio'
 export default BaseRadio

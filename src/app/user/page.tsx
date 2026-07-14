@@ -148,7 +148,7 @@ export default async function UserPage() {
 
             {/* 펫 검사 추천 */}
             {userData?.pet.length === 0 && userData?.role !== "ADMIN" && (
-              <div className="flex justify-center border-3 border-dashed border-gray-default bg-bg h-20">
+              <div className="flex justify-center border-3 border-dashed border-gray-default bg-bg h-15">
                 <p className="flex items-center text-gray-default text-lg">펫 검사 후 수의사선생님과 상담을 진행할 수 있어요!</p>
               </div>
             )}

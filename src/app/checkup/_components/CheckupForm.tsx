@@ -31,7 +31,7 @@ export default function CheckupForm() {
   })
 
   // error메세지 출력을 위한 methods
-  const { watch, formState: { errors, isSubmitting }} = methods
+  const { formState: { isSubmitting }} = methods
   
   // 조건을 걸기위한 watch (aiResult: 버튼 disabled, petType: 고양이/강아지 타입별 문답)
   const petType = methods.watch("type")
@@ -104,7 +104,7 @@ export default function CheckupForm() {
       // 0점 이하로 못내려감
       if (totalScore < 0) totalScore = 0
 
-      const { previewUrl, ...otherData } = data
+      const { ...otherData } = data
 
       const totalData = {
         ...otherData,
@@ -125,21 +125,25 @@ export default function CheckupForm() {
       }
 
       const result = await response.json()
-      route.push('/user')
+      if (result.success === true) { 
+        route.push('/user')
+      } else {
+        alert(result.message)
+      }
     } catch(error) {
       console.log("데이터 전송 실패", error)
       throw new Error("데이터 전송을 실패하였습니다.")
     }
   }
 
-  let CHECKUP_COMPONENT = [
-    <CheckupBasicStatus />,
+  const CHECKUP_COMPONENT = [
+    <CheckupBasicStatus key='basic' />,
     petType === 'cat' ? <CheckupCat /> : false,
-    <CheckupAi onAnalyzing={setIsAnalyzing}/>,
-    <CheckupSkin />,
-    <CheckupMouth />,
-    <CheckupActivity />,
-    <CheckupEtc />,
+    <CheckupAi key="ai" onAnalyzing={setIsAnalyzing}/>,
+    <CheckupSkin key="skin" />,
+    <CheckupMouth key="mouth" />,
+    <CheckupActivity key="activity" />,
+    <CheckupEtc key="etc" />,
   ].filter(Boolean)
 
   // 프로그래스바
@@ -168,7 +172,7 @@ export default function CheckupForm() {
         {/* 타이틀바 */}
         <div className="flex justify-between">
           <div>
-            <span className="text-2xl">PHASE_{step + 1}</span> // PET_CORE_REGISTRATION
+            <span className="text-2xl">PHASE_{step + 1}</span>
           </div>
 
           <div>

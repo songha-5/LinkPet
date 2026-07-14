@@ -34,7 +34,7 @@ export async function updateSession(request: NextRequest) {
         },
         // 로그인 기간이 만료됬을때 새쿠키 발급
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })

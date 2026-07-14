@@ -9,10 +9,7 @@ import { useRouter } from "next/navigation";
 import { passwordUserChange } from "@/src/actions/auth.passwordUserChange";
 import { LoaderCircle } from "lucide-react";
 
-interface PassworModalProps {
-}
-
-export default function PasswordModal({ }: PassworModalProps) {
+export default function PasswordModal() {
   const router = useRouter()
   const openModal = useModalStore((state) => state.openModal)
 
@@ -55,13 +52,14 @@ export default function PasswordModal({ }: PassworModalProps) {
         placeholder="현재 비밀번호를 입력해주세요."
         password
         {...register("userPassword")}
+        className="w-100"
         errorMsg={errors.userPassword?.message}
       />
       <BaseInput
         title="NEW PASSWORD"
         placeholder="새 비밀번호를 입력해주세요."
         password
-        className="mt-10"
+        className="mt-10 w-100"
         {...register("password")}
         errorMsg={errors.password?.message}
       />
@@ -69,7 +67,7 @@ export default function PasswordModal({ }: PassworModalProps) {
         title="CONFIRM PASSWORD"
         placeholder="새 비밀번호를 재입력해주세요."
         password
-        className="mt-4"
+        className="mt-4 w-100"
         {...register("confirmPassword")}
         errorMsg={errors.confirmPassword?.message}
       />
