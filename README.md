@@ -1,7 +1,7 @@
 # 웹사이트 링크
 **vercel을 활용하여 만든 사이트로 ``데이터를 해외건너에서 받기 때문``에 느립니다**
 
-https://link-bwn0jgfb5-linkpet.vercel.app/
+https://link-pet-nu.vercel.app/
 
 # 🏬 LinkPet
 **💎보호자와 수의사를 잇는 AI 건강진단 플랫폼**
