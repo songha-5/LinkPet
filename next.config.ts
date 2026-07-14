@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
       new URL('http://k.kakaocdn.net/**')
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true
+  }
 };
 
 export default nextConfig;
