@@ -31,6 +31,8 @@ export async function delectUserAction() {
     return { success: false, message: "데이터베이스 갱신에 실패했습니다." }
   }
 
+  await supabase.auth.signOut()
+
   const supabaseAdmin = await createClientAdmin()
   const { error: authDeleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
 
