@@ -90,7 +90,10 @@ export default async function UserPage() {
               ) : (
                 <div className="flex-1">
                   <h2 className="text-2xl text-neonPink">🐾 PET_CORE_DATA // 나의 펫 검사하기</h2>
-                  <Link href={'/checkup'} className="cursor-pointer hover:bg-bg-gray-800 transition-all block text-center p-20 border-4 border-gray-default border-dashed mbs-2 text-4xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)]">펫_검사하기</Link>
+                  <Link href={'/checkup'} className="block text-center p-20 pbe-14 border-4 border-font-white shadow-[6px_6px_0_var(--color-font-white-shadow)] mbs-2 text-4xl text-font-white text-shadow-[3px_3px_0_var(--color-neonPink)] hover:text-font hover:bg-font-white hover:shadow-[2px_2px_0_var(--color-font-white-shadow)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer">
+                    펫_등록하기
+                    <p className="text-lg mbs-2 animate-opacityBlink">여기를 눌러 &quot;등록&quot;후 상담을 받으세요!</p>
+                  </Link>
                 </div>
               )
             }
